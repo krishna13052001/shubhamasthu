@@ -1,0 +1,1 @@
+web: gunicorn scard.wsgi --log-file -
