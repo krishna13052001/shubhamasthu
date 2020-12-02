@@ -1,0 +1,85 @@
+{%extends "dashboard.html"%}
+{%block content%}
+<br><br>
+<form action="/validateCoupon" method="POST">
+    {%csrf_token%}
+    <div class="row">
+        <div class="col-sm-7 form-group">
+            <label for="option">Select Appropriate Search Option</label>
+            <select name="option" id="option" class="form-control" value="0" onchange="display(this.value)">
+                <option value="0">Search Based on Link</option>
+                <option value="1">Search Based on Customer Bill ID</option>
+                <option value="2">Search Based on Customer Mobile Number</option>
+            </select>
+        </div>
+        <div class="col-sm-3 form-group" id="0">
+            <label for="lid">Link ID</label>
+            <input type="text" id="lid" name="link" class="form-control">
+        </div>
+        <div class="col-sm-3 form-group" id="1" style="display: none;">
+            <label for="billid">Bill ID</label>
+            <input type="text" id="billid" name="bill_id" class="form-control">
+        </div>
+        <div class="col-sm-3 form-group" id="2" style="display: none;">
+            <label for="mobile">Mobile Number</label>
+            <input type="text" id="mobile" name="mobile" class="form-control">
+        </div>
+        <div class="col-sm-2 form-group">
+            <br><center><input type="submit" value="Submit" class="btn btn-primary" required></center>
+        </div>
+    </div>
+</form>
+<hr width="100%">
+<center><p style="font-size: larger; color: #002366; font-style: oblique;">Customer Details</p></center>
+<hr width="100%">
+<div class="container">
+    <p style="font-size: larger; color: #002366; font-style: oblique;">Coupons</p>
+    <table class="table table-striped table-bordered table-hover">
+        <tr>
+            <th>Customer Name</th>
+            <th>Bill ID</th>
+            <th>Mobile Number</th>
+            <th>Coupon Code</th>
+            <th>Amount</th>
+            <th>Date Created</th>
+            <th>Created At Branch</th>
+            <th>Scratched</th>
+            <th>Redeemed</th>
+            <th>Redeemed Date</th>
+        </tr>
+        {%for item in obj%}
+        <tr>
+            <td>{{item.coupon.first.name}}</td>
+            <td>{{item.coupon.first.bill_id}}</td>
+            <td>{{item.coupon.first.mobile}}</td>
+            <td>{{item.code}}</td>
+            <td>{{item.amount}}</td>
+            <td>{{item.coupon.first.date_created}}</td>
+            <td>{{item.coupon.first.created_by.branch}}</td>
+            <td>{{item.scratched}}</td>
+            <td>{{item.redeemed}}</td>
+            <td>{{item.redeemed_date}}</td>
+        </tr>
+        {%endfor%}
+    </table>
+</div>
+<script>
+    function display(val)
+    {
+        switch(val){
+            case "0": document.getElementById('0').style.display = 'block';
+                    document.getElementById('1').style.display = 'none';
+                    document.getElementById('2').style.display = 'none';
+                    break;
+            case "1": document.getElementById('0').style.display = 'none';
+                    document.getElementById('1').style.display = 'block';
+                    document.getElementById('2').style.display = 'none';
+                    break;
+            case "2": document.getElementById('0').style.display = 'none';
+                    document.getElementById('1').style.display = 'none';
+                    document.getElementById('2').style.display = 'block';
+                    break;
+        }
+    }
+</script>
+{%endblock%}

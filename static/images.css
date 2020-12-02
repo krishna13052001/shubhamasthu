@@ -2,7 +2,7 @@ body {
     padding: 20px 0;
   }
   
-  .container {
+  .mycard {
     border: 3px solid yellow;
     position: relative;
     width: 300px;

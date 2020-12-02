@@ -1,9 +1,6 @@
 from django.contrib import admin
-from .models import Cards,User
+from .models import User,Coupon,Cards
 # Register your models here.
-class CardUser(admin.ModelAdmin):
-    list_display = ['email','amount']
-    list_filter = ['email','amount']
-
-admin.site.register(Cards,CardUser)
 admin.site.register(User)
+admin.site.register(Coupon)
+admin.site.register(Cards)

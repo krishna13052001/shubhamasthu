@@ -24,19 +24,20 @@ from decouple import config
 import dj_database_url
 
 SECRET_KEY = config('SECRET_KEY')
-#DEBUG = True
-DEBUG = config('DEBUG', default=False, cast=bool)
-DATABASES = {
+DEBUG = True
+#DEBUG = config('DEBUG', default=False, cast=bool)
+'''DATABASES = {
     'default': dj_database_url.config(
         default=config('DATABASE_URL')
     )
 }
-'''DATABASES = {
+'''
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
-}'''
+}
 
 
 ALLOWED_HOSTS = ['shubhamasthu.herokuapp.com','127.0.0.1','0.0.0.0']
