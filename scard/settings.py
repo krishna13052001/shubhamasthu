@@ -24,9 +24,8 @@ from decouple import config
 import dj_database_url
 
 SECRET_KEY = config('SECRET_KEY')
-DEBUG = True
-#DEBUG = config('DEBUG', default=False, cast=bool)
-'''DATABASES = {
+DEBUG = config('DEBUG', default=False, cast=bool)
+DATABASES = {
     'default': dj_database_url.config(
         default=config('DATABASE_URL')
     )
@@ -38,7 +37,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
+'''
 
 ALLOWED_HOSTS = ['shubhamasthu.herokuapp.com','127.0.0.1','0.0.0.0']
 
@@ -72,7 +71,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'scard.urls'
-
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

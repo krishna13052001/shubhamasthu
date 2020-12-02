@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 import random
-from .models import User,Coupon,Cards
+from .models import User,Coupon,Cards,SiteAnnouncements
 from django.core.mail import send_mail
 from django.contrib.auth import authenticate
 from django.contrib import auth,messages
@@ -8,7 +8,8 @@ import secrets
 from twilio.rest import Client
 # Creates your views here.
 def home(request):
-    return render(request,'home.html')
+    announcement = SiteAnnouncements.objects.all()
+    return render(request,'home.html',{'announcement':announcement})
 
 def login(request):
     if request.method=="POST":
@@ -122,19 +123,18 @@ def downStats(request):
             scratched_codes,unscratched_codes='',''
             redeemed_codes,unredeemed_codes='',''
             redeemed_dates = ''
-            print(item.cards)
             for card in item.cards.all():
                 coupon_code+=card.code+','
                 total_amount+=card.amount
                 if card.scratched==True:
-                    scratched_codes+=card.code
+                    scratched_codes+=card.code+','
                 else:
-                    unscratched_codes+=card.code
+                    unscratched_codes+=card.code+','
                 if card.redeemed==True:
-                    redeemed_codes+=card.code
-                    redeemed_dates+=card.redeemed_date
+                    redeemed_codes+=card.code+','
+                    redeemed_dates+=card.redeemed_date.strftime("%d-%m-%Y %H:%M:%S")+','
                 else:
-                    unredeemed_codes+=card.code
+                    unredeemed_codes+=card.code+','
             writer.writerow([item.name,item.bill_id,item.email,item.mobile,item.no_of_coupons,item.bill_amount,item.created_by.branch,item.date_created,
             coupon_code,total_amount,scratched_codes,unscratched_codes,redeemed_codes,redeemed_dates,unredeemed_codes])
         return response
@@ -149,3 +149,41 @@ def scratch(request,token):
             return redirect('/')        
         else:
             return render(request,'displayCard.html',{'cards':cards})
+
+def cardScratched(request,id):
+    obj = Cards.objects.get(id=id)
+    obj.scratched = True
+    obj.save()
+    return render(request,'card.html',{'obj':obj})
+
+def redeem(request):
+    if request.method=="POST":
+        option = request.POST["option"]
+        if option=="0":
+            link = request.POST["link"]
+            obj = Cards.objects.filter(coupon__link=link).all().select_related()    
+            return render(request,'redeem.html',{'obj':obj})
+        elif option=="1":
+            bill_id = request.POST['bill_id']
+            obj = Cards.objects.filter(coupon__bill_id=bill_id).all().select_related()    
+            return render(request,'redeem.html',{'obj':obj})
+        elif option=="2":
+            mobile = request.POST['mobile']
+            obj = Cards.objects.filter(coupon__mobile=mobile).all().select_related()    
+            return render(request,'redeem.html',{'obj':obj})
+    return render(request,'redeem.html')
+
+def markRedeem(request):
+    if request.method=="POST":
+        my_vals = request.POST.getlist("list[]")
+        for item in my_vals:
+            Cards.objects.filter(id=item).update(redeemed=True,redeemed_date=datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        storage = messages.get_messages(request)
+        storage.used = True
+        messages.info(request,'Selected Coupons are redeemed')
+        return redirect('/dashboard')
+    else:
+        storage = messages.get_messages(request)
+        storage.used = True
+        messages.info(request,'Operation Not allowed')    
+        return redirect('/')

@@ -22,3 +22,9 @@ class Coupon(models.Model):
     cards = models.ManyToManyField(Cards,related_name='coupon')
     created_by = models.ForeignKey(User,on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True)
+
+class SiteAnnouncements(models.Model):
+    message = models.CharField(max_length=500)
+    link_exist = models.BooleanField()
+    link = models.CharField(max_length=500,null=True,blank=True)
+    date = models.DateField(auto_now_add=True,null=True)

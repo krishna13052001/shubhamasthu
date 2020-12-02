@@ -12,18 +12,29 @@
 </head>
 <body>
     <center>
-        Scratch and Test your luck
+        Your Scratch Cards
     </center>
     <div class="container">
         <div class="row">
             {%for item in cards%}
             <div class="col-sm-4">
+                {% if item.scratched == False %}
                 <div class="card" style="width: 18rem;">
                     <img class="card-img-top" src="{% static 'shubha.jpg' %}" alt="Card image cap">
-                    <button type="button" class="btn btn-primary stretched-link" data-toggle="modal" data-target="#exampleModal">
+                    <button type="button" class="btn btn-primary stretched-link" data-toggle="modal" data-target="#exampleModal"
+                     onclick="document.getElementById('couponCard').src='/cardScratched/{{item.id}}'">
                         Click to Scratch
                       </button>
                 </div>
+                <br>
+                {%else%}
+                <div class="card" style="width: 18rem;">
+                    <center>
+                        <h4>You won Rs.<h3><code>{{item.amount}}</code></h3></h4>
+                        <h5>Visit center to Redeem Code</h5>
+                    </center>
+                </div>
+                {%endif%}
             </div>
             {%endfor%}
         </div>    
@@ -32,17 +43,21 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+              <h5 class="modal-title" id="exampleModalLabel">Scratch Now</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div class="modal-body">
-              ...
+            <div class="modal-body" style="height: 400px;">
+                <iframe id="couponCard" 
+                        src="#" 
+                        title="Loading Inside a frame"
+                        style="position: absolute; height:400px; width:80%; border: none;">
+
+                </iframe>      
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
             </div>
           </div>
         </div>

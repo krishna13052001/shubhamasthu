@@ -9,6 +9,8 @@ urlpatterns = [
     path('addCoupon',views.addCoupon,name="addCoupon"),
     path('validateCoupon',views.validateCoupon,name="validateCoupon"),
     path('downStats',views.downStats,name="downStats"),
-    path('scratch/<str:token>',views.scratch,name="scratch")
-    #path('thanks',views.thanks,name="thanks")
+    path('scratch/<str:token>',views.scratch,name="scratch"),
+    path('cardScratched/<int:id>',views.cardScratched,name="cardScratched"),
+    path('redeem',views.redeem,name="redeem"),
+    path('markRedeem',views.markRedeem,name="markRedeem")
 ]
