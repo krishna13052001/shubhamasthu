@@ -76,10 +76,10 @@ def addCoupon(request):
             obj1 = Cards.objects.create(code=code,amount=amount)
             obj.cards.add(obj1)
             obj.save()
-        a = 'ACcabcfe0b21027a19fc04e23a660b7215'
-        b = 'b231dd874c2a8b7fcc2979269849c42a'
+        a = 'AC9d34ee7c820fc8c130178b93d3ea8f3f'#sathya krishna
+        b = 'b90312976b5b536413b295027a9a91d9'#sathya krishna
         client = Client(a,b)    
-        client.messages.create(body='Dear Sir/Madam,\n\tThank you for shopping with Shubhamasthu Shopping Mall. Click this link to redeem shubhamasthu.herokuapp.com/scratch/'+obj.link,from_='+12512775112',to='+91'+str(mobile))
+        client.messages.create(body='Dear Sir/Madam,\n\tThank you for shopping with Shubhamasthu Shopping Mall. Click this link to redeem shubhamasthu.herokuapp.com/scratch/'+obj.link,from_='+12487812608',to='+91'+str(mobile))
         storage = messages.get_messages(request)
         storage.used = True
         messages.info(request,'Coupons Created and Shared Successfully')
