@@ -79,7 +79,7 @@ def addCoupon(request):
         a = 'AC9d34ee7c820fc8c130178b93d3ea8f3f'#sathya krishna
         b = 'b90312976b5b536413b295027a9a91d9'#sathya krishna
         client = Client(a,b)    
-        client.messages.create(body='Dear Sir/Madam,\n\tThank you for shopping with Shubhamasthu Shopping Mall. Click this link to redeem shubhamasthu.herokuapp.com/scratch/'+obj.link,from_='+12487812608',to='+91'+str(mobile))
+        client.messages.create(body='Dear Sir/Madam,\n\tThank you for shopping with Shubhamasthu Shopping Mall. Click this link to redeem shubhamasthu.herokuapp.com/scratch/'+obj.link,from_='+19093216268',to='+91'+str(mobile))
         storage = messages.get_messages(request)
         storage.used = True
         messages.info(request,'Coupons Created and Shared Successfully')
