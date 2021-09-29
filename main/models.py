@@ -5,6 +5,7 @@ class User(AbstractUser):
     branch = models.CharField(max_length=10,choices=(('Tirupati','Tirupati'),('Nellore','Nellore'),('Vijayawada','Vijayawada')))
 
 class Cards(models.Model):
+    
     code = models.CharField(max_length=10)
     amount = models.IntegerField()
     scratched = models.BooleanField(default=False)
@@ -14,7 +15,7 @@ class Cards(models.Model):
 class Coupon(models.Model):
     name = models.CharField(max_length=200)
     bill_id = models.CharField(max_length=50)
-    email = models.EmailField()
+    email = models.EmailField(blank=True, null = True)
     mobile = models.BigIntegerField()
     no_of_coupons = models.IntegerField()
     bill_amount = models.IntegerField()

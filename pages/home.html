@@ -1,7 +1,7 @@
 {% load static%}
-{% load google_translate %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,29 +13,25 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.css">
     <script src="{% static 'home.js' %}"></script>
 </head>
+
 <body>
     <p class="introHead">Shubhamasthu CMS</p>
-    <div class="alert alert-info">   
-    <marquee behavior="" direction="">    
+    <div class="alert alert-info">
+        <marquee behavior="" direction="">
             <p>
-                {%for item in announcement%}
-                {{item.message}}&nbsp;&nbsp;{% if item.link_exist == True %} Link: <a href="{{item.link}}">Click Here</a>{% endif %} &nbsp;&nbsp;
-                {%endfor%}  
+                {%for item in announcement%} {{item.message}}&nbsp;&nbsp;{% if item.link_exist == True %} Link: <a href="{{item.link}}">Click Here</a>{% endif %} &nbsp;&nbsp; {%endfor%}
             </p>
-    </marquee>
+        </marquee>
     </div>
     <div class="container-fluid">
-        {% if messages %}
-        {% for message in messages %}
+        {% if messages %} {% for message in messages %}
         <div {% if message.tags %} class="{{ message.tags }}" {% endif %}>
-          <div class="alert alert-success" role="alert">
-            {{message}} 
-          </div>
+            <div class="alert alert-success" role="alert">
+                {{message}}
+            </div>
         </div>
-        {% endfor %}
-      {%endif%}
+        {% endfor %} {%endif%}
     </div>
-    <center>{% google_translate type='vertical' language='en' %}</center>
     {% if request.user.is_authenticated == False%}
     <div class="form-wrap">
         <div class="tabs">
@@ -47,7 +43,7 @@
                 <form class="signup-form" action="/register" method="POST">
                     {%csrf_token%}
                     <input type="text" class="input" id="user_name" name="first_name" placeholder="Your Name">
-                    <input type="email" class="input" id="user_email" name="email"  placeholder="Email">
+                    <input type="email" class="input" id="user_email" name="email" placeholder="Email">
                     <input type="text" class="input" id="user_name" name="username" placeholder="Username">
                     <input type="password" class="input" id="user_pass" name="password" placeholder="Password">
                     <select name="branch" class="input" id="user_type" id="acc">
@@ -75,10 +71,8 @@
     <center>
         <div class="form-wrap">
             {%if request.user.is_superuser == False %}
-                <a href="/dashboard" class="btn btn-outline-primary">Dashboard</a>
-            {%else%}
-            <a href="/admin" class="btn btn-outline-primary">Dashboard</a>
-            {%endif%}
+            <a href="/dashboard" class="btn btn-outline-primary">Dashboard</a> {%else%}
+            <a href="/admin" class="btn btn-outline-primary">Dashboard</a> {%endif%}
             <a href="/logout" class="btn btn-outline-danger">Logout</a>
         </div>
     </center>
@@ -87,4 +81,5 @@
         Shubhamasthu Shopping Mall Pvt. Ltd.
     </div>
 </body>
+
 </html>

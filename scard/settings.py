@@ -54,7 +54,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'main',
     'whitenoise',
-    'google_translate'
 ]
 
 AUTH_USER_MODEL = 'main.User'
