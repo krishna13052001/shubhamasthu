@@ -187,9 +187,11 @@ def scratch(request,token):
             return redirect('/')
         else:
             total = 0
+            n = 0
             for item in cards:
+                n += 1
                 total += item.amount
-            return render(request,'displayCard.html',{'cards':cards,'total':total})
+            return render(request,'displayCard.html',{'cards':cards,'total':total,'n':n})
 
 def cardScratched(request,id):
     obj = Cards.objects.get(id=id)
