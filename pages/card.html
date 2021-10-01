@@ -110,7 +110,7 @@
   function handleMouseMove(e) {
     if (!isDrawing) { return; }
     
-    e.preventDefault();
+    // e.preventDefault();
 
     var currentPoint = getMouse(e, canvas),
         dist = distanceBetween(lastPoint, currentPoint),
