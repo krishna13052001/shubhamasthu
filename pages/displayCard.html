@@ -16,9 +16,12 @@
     </center>
     <div class="container">
         <div class="row">
+            {% with name="World" %}     
             {%for item in cards%}
             <div class="col-sm-4">
-              <h3>You totally won {{n}} strach cards</h3>
+              <h3>Stract Card Number: {{ n }}</h3>
+              {{n = n+1}}
+              {% endwith %}
               <!-- {{ item.scratched }} -->
                 {% if item.scratched == False %}
                 <div class="card" style="width: 18rem;">
