@@ -11,3 +11,10 @@ jQuery(document).ready(function($) {
 		$(tab_content).addClass('active');
 	});
 });
+
+$(document).ready(function(){
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+      });
+}); 

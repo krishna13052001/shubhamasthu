@@ -91,7 +91,7 @@ def addCoupon(request):
             bill_id = request.POST["bill_id"]
             # email = request.POST["email"]
             mobile = request.POST["mobile"]
-            bill_amount = request.POST["bill_amount"]
+            bill_amount = eval(request.POST["bill_amount"])
             # no_of_coupons = request.POST["no_of_coupons"]
             no_of_coupouns = int(bill_amount)//1000
             link = secrets.token_hex(10)
@@ -184,9 +184,12 @@ def scratch(request,token):
             storage = messages.get_messages(request)
             storage.used = True
             messages.info(request,'error')
-            return redirect('/')        
+            return redirect('/')
         else:
-            return render(request,'displayCard.html',{'cards':cards})
+            total = 0
+            for item in cards:
+                total += item.amount
+            return render(request,'displayCard.html',{'cards':cards,'total':total})
 
 def cardScratched(request,id):
     obj = Cards.objects.get(id=id)
@@ -199,16 +202,25 @@ def redeem(request):
         option = request.POST["option"]
         if option=="0":
             link = request.POST["link"]
-            obj = Cards.objects.filter(coupon__link=link).all().select_related()    
-            return render(request,'redeem.html',{'obj':obj})
+            obj = Cards.objects.filter(coupon__link=link,redeemed=False).all().select_related()
+            total = 0
+            for item in obj:
+                total += item.amount
+            return render(request,'redeem.html',{'obj':obj,'total':total})
         elif option=="1":
             bill_id = request.POST['bill_id']
-            obj = Cards.objects.filter(coupon__bill_id=bill_id).all().select_related()    
-            return render(request,'redeem.html',{'obj':obj})
+            obj = Cards.objects.filter(coupon__bill_id=bill_id,redeemed=False).all().select_related()    
+            total = 0
+            for item in obj:
+                total += item.amount
+            return render(request,'redeem.html',{'obj':obj,'total':total})
         elif option=="2":
             mobile = request.POST['mobile']
-            obj = Cards.objects.filter(coupon__mobile=mobile).all().select_related()    
-            return render(request,'redeem.html',{'obj':obj})
+            obj = Cards.objects.filter(coupon__mobile=mobile,redeemed=False).all().select_related()   
+            total = 0
+            for item in obj:
+                total += item.amount
+            return render(request,'redeem.html',{'obj':obj,'total':total})
     return render(request,'redeem.html')
 
 def markRedeem(request):

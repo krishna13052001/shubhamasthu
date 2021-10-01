@@ -31,12 +31,14 @@
                 <div class="card" style="width: 18rem;">
                     <center>
                         <h4>You won Rs.<h3><code>{{item.amount}}</code></h3></h4>
+                        <h6>Coupon Code: {{item.code}}</h6>
                         <h5>Visit center to Redeem Code</h5>
                     </center>
                 </div>
                 {%endif%}
             </div>
             {%endfor%}
+            <p>Total Earned = {{total}}</p>
         </div>    
     </div>
       <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
