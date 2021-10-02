@@ -191,7 +191,8 @@ def scratch(request,token):
             for item in cards:
                 n += 1
                 total += item.amount
-            return render(request,'displayCard.html',{'cards':cards,'total':total,'n':n})
+            snlist = [n for i in range(n)]
+            return render(request,'displayCard.html',{'cards':cards,'total':total,'n':n,'sno_list': snlist})
 
 def cardScratched(request,id):
     obj = Cards.objects.get(id=id)
