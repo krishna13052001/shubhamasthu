@@ -19,6 +19,7 @@ class Coupon(models.Model):
     mobile = models.BigIntegerField()
     no_of_coupons = models.IntegerField()
     bill_amount = models.IntegerField()
+    # bill_amount = models.CharField(max_length = 200)
     link = models.CharField(max_length=20)
     cards = models.ManyToManyField(Cards,related_name='coupon')
     created_by = models.ForeignKey(User,on_delete=models.CASCADE)

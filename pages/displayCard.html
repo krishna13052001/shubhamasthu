@@ -19,7 +19,9 @@
         <div class="row">
             {%for item in cards%}
             <div class="col-sm-4">
+                <h5>Scratch Card Number {{loop.index + 1}}</h5>
                 {% if item.scratched == False %}
+                <p>Is scratched is ? {{item.scratched}}</p>
                 <div class="card" style="width: 18rem;">
                     <img class="card-img-top" src="{% static 'shubha.jpg' %}" alt="Card image cap">
                     <button type="button" class="btn btn-primary stretched-link" data-toggle="modal" data-target="#exampleModal"
@@ -59,10 +61,19 @@
                 </iframe>      
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="refeshPage()">Close</button>
             </div>
           </div>
         </div>
       </div>
 </body>
 </html>
+
+<script>
+  function refeshPage(){
+    console.log("I am inside the refresh");
+    window.location.reload();
+  }
+  // var total = 0;
+  // function 
+</script>
