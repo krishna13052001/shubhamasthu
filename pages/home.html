@@ -16,13 +16,13 @@
 
 <body>
     <p class="introHead">Shubhamasthu CMS</p>
-    <div class="alert alert-info">
-        <marquee behavior="" direction="">
-            <p>
-                {%for item in announcement%} {{item.message}}&nbsp;&nbsp;{% if item.link_exist == True %} Link: <a href="{{item.link}}">Click Here</a>{% endif %} &nbsp;&nbsp; {%endfor%}
-            </p>
-        </marquee>
-    </div>
+        <div class="alert alert-info">
+            <marquee behavior="" direction="">
+                <p>
+                    {%for item in announcement%} {{item.message}}&nbsp;&nbsp;{% if item.link_exist == True %} Link: <a href="{{item.link}}">Click Here</a>{% endif %} &nbsp;&nbsp; {%endfor%}
+                </p>
+            </marquee>
+        </div>
     <div class="container-fluid">
         {% if messages %} {% for message in messages %}
         <div {% if message.tags %} class="{{ message.tags }}" {% endif %}>

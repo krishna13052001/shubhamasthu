@@ -49,10 +49,10 @@ def login(request):
             storage = messages.get_messages(request)
             storage.used = True
             messages.info(request,'Invalid Credentials')
-            return redirect('/')
+            return redirect('/login')
     storage = messages.get_messages(request)
     storage.used = True
-    messages.info(request,'Invalid Request')
+    messages.info(request,'Invalid Details')
     return redirect('/')    
         
 def register(request):
@@ -74,7 +74,11 @@ def register(request):
         return redirect('/')        
 
 def dashboard(request):
-    return render(request,"dashboard.html")
+    if(request.user.is_authenticated):
+        return render(request,"dashboard.html")
+    else:
+        messages.info(request,"Please Login/Register")
+        return redirect("/login")
 
 def logout(request):
     auth.logout(request)
@@ -91,9 +95,9 @@ def addCoupon(request):
             bill_id = request.POST["bill_id"]
             # email = request.POST["email"]
             mobile = request.POST["mobile"]
-            bill_amount = eval(request.POST["bill_amount"])
+            bill_amount = request.POST["bill_amount"]
             # no_of_coupons = request.POST["no_of_coupons"]
-            no_of_coupouns = int(bill_amount)//1000
+            no_of_coupouns = eval(bill_amount)//1000
             link = secrets.token_hex(10)
             obj = Coupon.objects.create(name=name,bill_id=bill_id,mobile=mobile,bill_amount=bill_amount,no_of_coupons=no_of_coupouns,created_by=request.user,link=link)
             obj.save()
@@ -244,3 +248,9 @@ def markRedeem(request):
         storage.used = True
         messages.info(request,'Operation Not allowed')    
         return redirect('/')
+
+def gettotal(request):
+    if(request.method == "POST"):
+        bill_value = request.POST['bill_amount']
+        bill_value = eval(bill_value)
+        return redirect("/addCoupon",{"total_amount":bill_value})

@@ -1,7 +1,7 @@
 {%extends "dashboard.html"%} {%block content%}
 <br><br>
 <div class="container">
-    <form action="/addCoupon" method="POST">
+    <form action="/addCoupon" method="POST" autocomplete="off">
         {%csrf_token%}
         <div class="row">
             <div class="form-group col-sm">
@@ -25,20 +25,26 @@
             </div>
             <div class="form-group col-sm">
                 <label for="bill_amount">Bill Amount</label>
-                <input type="text" name="bill_amount" id="bill_amount" class="form-control" required>
+                <input type="text" name="bill_amount" id="bill_amount" class="form-control" onkeyup="totalValue()" required>
             </div>
         </div>
-        <!-- <div class="row"> -->
-            <!-- <div class="form-group col-sm">
-                <label for="bill_amount">Bill Amount</label>
-                <input type="text" name="bill_amount" id="bill_amount" class="form-control" required>
-            </div> -->
-            <!-- <div class="form-group col-sm">
-                <label for="no_of_coupons">No of Coupons</label>
-                <input type="int" name="no_of_coupons" id="no_of_coupons" class="form-control" required>
-            </div> -->
-        <!-- </div> -->
+        <div>
+            <span>
+                <h5>No of Coupouns Issues: <p id="no_of_coupons"></p></h5>
+            </span>
+            <span>
+                <h5> Total Amount: <p id="total"></p></h5>
+            </span>
+        </div>
         <input type="submit" value="Create Coupon" class="btn btn-primary">
     </form>
 </div>
+<script>
+    function totalValue(){
+        var el = eval(document.getElementById("bill_amount").value);
+        var c = el/1000;
+        document.getElementById("total").innerHTML = el.toString();
+        document.getElementById("no_of_coupons").innerHTML = Math.floor(c.toString());
+    }
+</script>
 {%endblock%}
