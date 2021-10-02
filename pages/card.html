@@ -12,13 +12,14 @@
 </head>
 <body>
     <div class="container mycard" id="js-container" style="padding-left: 10px;">
-      <canvas class="canvas" id="js-canvas" width="300" height="300"></canvas>
+      <canvas class="canvas" id="js-canvas" width="300" height="300">
         <center>
           <h4>Congratulations</h4><br>
           You won Rs.<h3><code>{{obj.amount}}</code></h3>
           <code>Coupon Code {{obj.code}}</code>
           <h6>Visit Nearest Subhamasthu Shopping Mall and Redeem your award</h6>
         </center>
+      </canvas>
     </div>
 </body>
 <script>
@@ -99,6 +100,7 @@
     console.log(filledInPixels + '%');
     if (filledInPixels > 50) {
       canvas.parentNode.removeChild(canvas);
+      window.location.reload();
     }
   }
   
