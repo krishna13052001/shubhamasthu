@@ -111,7 +111,7 @@ def addCoupon(request):
             a = 'AC9d34ee7c820fc8c130178b93d3ea8f3f'#sathya krishna
             b = 'b90312976b5b536413b295027a9a91d9'#sathya krishna
             client = Client(a,b)    
-            client.messages.create(body='Dear Sir/Madam,Thank you for shopping with Shubhamasthu Shopping Mall. Click this link to grab your coupon shubhamasthu.herokuapp.com/scratch/'+obj.link,from_='+19093216268',to='+91'+str(mobile))
+            client.messages.create(body='Dear Customer, Click this link to grab your coupon shubhamasthu.herokuapp.com/scratch/'+ obj.link +' - Subhamasthu Shopping Mall. ',from_='+19093216268',to='+91'+str(mobile))
             storage = messages.get_messages(request)
             storage.used = True
             messages.info(request,'Coupons Created and Shared Successfully')
@@ -123,6 +123,10 @@ def addCoupon(request):
             messages.info(request,e)
             return redirect('/dashboard')
     return render(request,'addCard.html')
+
+
+
+
 
 def validateCoupon(request):
     if request.method=="POST":
