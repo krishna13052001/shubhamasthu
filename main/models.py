@@ -5,7 +5,6 @@ class User(AbstractUser):
     branch = models.CharField(max_length=10,choices=(('Tirupati','Tirupati'),('Nellore','Nellore'),('Vijayawada','Vijayawada')))
 
 class Cards(models.Model):
-    
     code = models.CharField(max_length=10)
     amount = models.IntegerField()
     scratched = models.BooleanField(default=False)

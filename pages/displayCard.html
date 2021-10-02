@@ -12,35 +12,38 @@
 </head>
 <body>
     <center>
-        Your Scratch Cards
-        Total no of Scratch Cards {{n}}
+        <h5>Congratulations<br/><br/>
+        Total no of Scratch Cards {{n}}</h5>
     </center>
+    <br>
     <div class="container">
         <div class="row">
-            {%for item in cards%}
+            {% for key, value in cards.items %}
             <div class="col-sm-4">
-                {% if item.scratched == False %}
-                <p>{{snlist}}</p>
+                {% if value.scratched == False %}
+                S.No: {{key}}<br />
                 <div class="card" style="width: 18rem;">
                     <img class="card-img-top" src="{% static 'shubha.jpg' %}" alt="Card image cap">
                     <button type="button" class="btn btn-primary stretched-link" data-toggle="modal" data-target="#exampleModal"
-                     onclick="document.getElementById('couponCard').src='/cardScratched/{{item.id}}'">
+                     onclick="document.getElementById('couponCard').src='/cardScratched/{{value.id}}'">
                         Click to Scratch
                       </button>
                 </div>
                 <br>
                 {%else%}
                 <div class="card" style="width: 18rem;">
+                    <code>{{key}}</code>
                     <center>
-                        <h4>You won Rs.<h3><code>{{item.amount}}</code></h3></h4>
-                        <h6>Coupon Code: {{item.code}}</h6>
-                        <h5>Visit center to Redeem Code</h5>
+                        <h4>You won Rs.<h3><code>{{value.amount}}</code></h3></h4>
+                        <h6>Coupon Code: {{value.code}}</h6>
                     </center>
                 </div>
                 {%endif%}
             </div>
             {%endfor%}
         </div>    
+        <br><br>
+        <center><h5>Total Amount Won: <code>{{amount_redeemed}}</code></h5><br><h5>Visit Nearest Shubhamasthu Shopping Mall to Redeem Code</h5></center>
     </div>
       <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -53,7 +56,7 @@
             </div>
             <div class="modal-body" style="height: 400px;">
                 <iframe id="couponCard" 
-                        src="#" 
+                        src="/empty" 
                         title="Loading Inside a frame"
                         style="position: absolute; height:400px; width:80%; border: none;">
 

@@ -1,3 +1,4 @@
+from django.http.response import JsonResponse
 from django.shortcuts import render,redirect
 import random
 from .models import User,Coupon,Cards,SiteAnnouncements
@@ -156,7 +157,7 @@ def downStats(request):
     if request.method=="POST":
         from_date = request.POST["from_date"]
         to_date = request.POST["to_date"]
-        obj = Coupon.objects.filter(date_created__range=(from_date,to_date),created_by__branch=request.user.branch)
+        obj = Coupon.objects.filter(date_created__range=(from_date,to_date),created_by=request.user)
         response = HttpResponse(content_type='text/csv')
         file_name = request.user.branch+'-'+request.user.username+'-'+datetime.now().strftime("%d-%m-%Y %H-%M-%S")+'-Coupon Report.csv'
         response['Content-Disposition'] = 'attachment; filename="'+file_name+'"'
@@ -195,12 +196,16 @@ def scratch(request,token):
             return redirect('/')
         else:
             total = 0
-            n = 0
+            n = 1
+            di = {}
+            amount_redeemed = 0
             for item in cards:
-                n += 1
+                di[n] = item
                 total += item.amount
-            snlist = [n for i in range(n)]
-            return render(request,'displayCard.html',{'cards':cards,'total':total,'n':n,'sno_list': snlist})
+                if item.scratched==True:
+                    amount_redeemed += item.amount
+                n+=1
+            return render(request,'displayCard.html',{'cards':di,'total':total,'n':n-1,'amount_redeemed':amount_redeemed})
 
 def cardScratched(request,id):
     obj = Cards.objects.get(id=id)
@@ -254,3 +259,6 @@ def gettotal(request):
         bill_value = request.POST['bill_amount']
         bill_value = eval(bill_value)
         return redirect("/addCoupon",{"total_amount":bill_value})
+
+def empty(request):
+    return JsonResponse({'loading':'True'})

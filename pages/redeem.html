@@ -53,11 +53,7 @@
             </tr>
             {%for item in obj%}
             <tr>
-                {%if item.redeemed == False%}
                 <td><input type="checkbox" value="{{item.id}}" name="list[]"></td>
-                {%else%}
-                <td>Already Redeemed</td>
-                {%endif%}
                 <td>{{item.coupon.first.name}}</td>
                 <td>{{item.coupon.first.bill_id}}</td>
                 <td>{{item.coupon.first.mobile}}</td>

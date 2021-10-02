@@ -12,5 +12,6 @@ urlpatterns = [
     path('scratch/<str:token>',views.scratch,name="scratch"),
     path('cardScratched/<int:id>',views.cardScratched,name="cardScratched"),
     path('redeem',views.redeem,name="redeem"),
-    path('markRedeem',views.markRedeem,name="markRedeem")
+    path('markRedeem',views.markRedeem,name="markRedeem"),
+    path('empty',views.empty,name="empty")
 ]
