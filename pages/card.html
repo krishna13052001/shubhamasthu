@@ -14,6 +14,12 @@
     <div class="container mycard" id="js-container" style="padding-left: 10px;">
       <div id="apper-text">
         <canvas class="canvas" id="js-canvas" width="300" height="300"></canvas>
+        <center >
+          <h4>Congratulations</h4><br>
+          You won Rs.<h3><code>{{obj.amount}}</code></h3>
+          <code>Coupon Code {{obj.code}}</code>
+          <h6>Please Collect your cash</h6>
+        </center>
       </div>
         
     </div>
@@ -96,16 +102,16 @@
     console.log(filledInPixels + '%');
     if (filledInPixels > 50) {
       canvas.parentNode.removeChild(canvas);
-      var el = document.getElementById("#apper-text");
-      data = `
-      <center >
-          <h4>Congratulations</h4><br>
-          You won Rs.<h3><code>{{obj.amount}}</code></h3>
-          <code>Coupon Code {{obj.code}}</code>
-          <h6>Please Collect your cash</h6>
-        </center>
-      `;
-      el.append(data);
+      // var el = document.getElementById("#apper-text");
+      // data = `
+      // <center >
+      //     <h4>Congratulations</h4><br>
+      //     You won Rs.<h3><code>{{obj.amount}}</code></h3>
+      //     <code>Coupon Code {{obj.code}}</code>
+      //     <h6>Please Collect your cash</h6>
+      //   </center>
+      // `;
+      // el.append(data);
 
     }
   }
