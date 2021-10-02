@@ -19,7 +19,6 @@
         <div class="row">
             {%for item in cards%}
             <div class="col-sm-4">
-                <h5>Scratch Card Number {{loop.index + 1}}</h5>
                 {% if item.scratched == False %}
                 <p>Is scratched is ? {{item.scratched}}</p>
                 <div class="card" style="width: 18rem;">
