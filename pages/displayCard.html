@@ -50,7 +50,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="exampleModalLabel">Scratch Now</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="refreshPage()">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
@@ -63,7 +63,7 @@
                 </iframe>      
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="refeshPage()" >Close</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
           </div>
         </div>
@@ -72,10 +72,7 @@
 </html>
 
 <script>
-  function refeshPage(){
-    console.log("I am inside the refresh");
-    window.location.reload();
-  } 
-  // var total = 0;
-  // function 
+    $('#exampleModal').on('hidden.bs.modal', function (e) {
+      window.location.reload();  
+    })
 </script>
