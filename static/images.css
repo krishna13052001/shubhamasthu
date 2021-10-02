@@ -22,3 +22,9 @@ body {
   .form {
     padding: 20px;
   }
+.hidden-text-msg{
+  display: hidden;
+}
+.hidden-text-msg.show{
+  display: inline-block;
+}
