@@ -12,7 +12,9 @@
 </head>
 <body>
     <div class="container mycard" id="js-container" style="padding-left: 10px;">
-      <canvas class="canvas" id="js-canvas" width="300" height="300"></canvas>
+      <div id="apper-text">
+        <canvas class="canvas" id="js-canvas" width="300" height="300"></canvas>
+      </div>
         
     </div>
 </body>
@@ -94,7 +96,7 @@
     console.log(filledInPixels + '%');
     if (filledInPixels > 50) {
       canvas.parentNode.removeChild(canvas);
-      var el = document.getElementById("#js-container");
+      var el = document.getElementById("#apper-text");
       data = `
       <center >
           <h4>Congratulations</h4><br>
