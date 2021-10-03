@@ -195,17 +195,15 @@ def scratch(request,token):
             messages.info(request,'error')
             return redirect('/')
         else:
-            total = 0
             n = 1
             di = {}
             amount_redeemed = 0
             for item in cards:
                 di[n] = item
-                total += item.amount
                 if item.scratched==True:
                     amount_redeemed += item.amount
                 n+=1
-            return render(request,'displayCard.html',{'cards':di,'total':total,'n':n-1,'amount_redeemed':amount_redeemed})
+            return render(request,'displayCard.html',{'cards':di,'n':n-1,'amount_redeemed':amount_redeemed})
 
 def cardScratched(request,id):
     obj = Cards.objects.get(id=id)
