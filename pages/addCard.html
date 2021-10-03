@@ -30,10 +30,13 @@
         </div>
         <div>
             <span>
-                <h5>No of Coupouns Issues: <p id="no_of_coupons"></p></h5>
+                <h5>No of Coupouns Issues: <span id="no_of_coupons">o</span></h5>
             </span>
             <span>
-                <h5> Total Amount: <p id="total"></p></h5>
+                <h5>Total Amount: <span id="total">0</span></h5>
+            </span>
+            <span>
+                <h5>Buy for Rs. <span id="remaining">1000</span> to get the next coupon </h5>
             </span>
         </div>
         <input type="submit" value="Create Coupon" class="btn btn-primary">
@@ -45,6 +48,10 @@
         var c = el/1000;
         document.getElementById("total").innerHTML = el.toString();
         document.getElementById("no_of_coupons").innerHTML = Math.floor(c.toString());
+        console.log(Math.floor(c)+1);
+
+        var remaining = ((Math.floor(c)+1)*1000) - el;
+        document.getElementById("remaining").innerHTML = remaining.toString();
     }
 </script>
 {%endblock%}
