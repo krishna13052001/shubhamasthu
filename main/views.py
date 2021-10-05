@@ -105,7 +105,7 @@ def addCoupon(request):
         link = None
         try:
             name=request.POST["name"]
-            bill_id = request.POST["bill_id"]
+            bill_id = str(request.POST["bill_id"])
             # email = request.POST["email"]
             mobile = request.POST["mobile"]
             bill_amount = request.POST["bill_amount"]
@@ -179,9 +179,11 @@ def downStats(request):
         file_name = request.user.branch+'-'+request.user.username+'-'+datetime.now().strftime("%d-%m-%Y %H-%M-%S")+'-Coupon Report.csv'
         response['Content-Disposition'] = 'attachment; filename="'+file_name+'"'
         writer = csv.writer(response)
-        writer.writerow(['Name', 'Bill ID', 'Email', 'Mobile','No of Coupons', 'Bill Amount',
+        #  name, bill number,No of Copouns, amount, mobile number, operator, Redeemed time
+        """writer.writerow(['Name', 'Bill ID', 'Email', 'Mobile','No of Coupons', 'Bill Amount',
                         'Branch Created','Time','Total Coupon Codes','Amount',
-                        'Scratched Codes','Unscratched Codes','Redeemed Codes','Redeemed Dates','Not Redeemed Codes'])
+                        'Scratched Codes','Unscratched Codes','Redeemed Codes','Redeemed Dates','Not Redeemed Codes'])"""
+        writer.writerow(['Name',"Bill Number", "No of Cards","Amount", "Mobile Number","Operator UserName","Redeemed Time"])
         for item in obj:
             coupon_code,total_amount = '',0
             scratched_codes,unscratched_codes='',''
@@ -199,8 +201,9 @@ def downStats(request):
                     redeemed_dates+=card.redeemed_date.strftime("%d-%m-%Y %H:%M:%S")+','
                 else:
                     unredeemed_codes+=card.code+','
-            writer.writerow([item.name,item.bill_id,item.email,item.mobile,item.no_of_coupons,item.bill_amount,item.created_by.branch,item.date_created,
-            coupon_code,total_amount,scratched_codes,unscratched_codes,redeemed_codes,redeemed_dates,unredeemed_codes])
+            """writer.writerow([item.name,item.bill_id,item.email,item.mobile,item.no_of_coupons,item.bill_amount,item.created_by.branch,item.date_created,
+            coupon_code,total_amount,scratched_codes,unscratched_codes,redeemed_codes,redeemed_dates,unredeemed_codes])"""
+            writer.writerow([item.name,item.bill_id,item.no_of_coupons,item.bill_amount,item.mobile,request.user,redeemed_dates])
         return response
     return render(request,"downStats.html")
 
@@ -249,16 +252,18 @@ def redeem(request):
             mobile = request.POST['mobile']
             obj = Cards.objects.filter(coupon__mobile=mobile,redeemed=False).all().select_related()   
             total = 0
+            number = 0
             for item in obj:
+                number += 1
                 total += item.amount
-            return render(request,'redeem.html',{'obj':obj,'total':total})
+            return render(request,'redeem.html',{'obj':obj,'total':total,'number':number})
     return render(request,'redeem.html')
 
 def markRedeem(request):
     if request.method=="POST":
         my_vals = request.POST.getlist("list[]")
         for item in my_vals:
-            Cards.objects.filter(id=item).update(redeemed=True,redeemed_date=datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+            Cards.objects.filter(id=item).update(redeemed=True,redeemed_date=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),issued_by = request.user)
         storage = messages.get_messages(request)
         storage.used = True
         messages.info(request,'Selected Coupons are redeemed')

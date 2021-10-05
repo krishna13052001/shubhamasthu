@@ -40,7 +40,7 @@ DATABASES = {
 }
 '''
 
-ALLOWED_HOSTS = ['subhamasthushoppingmall.herokuapp.com','127.0.0.1','0.0.0.0']
+ALLOWED_HOSTS = ['shubhamasthu.herokuapp.com','127.0.0.1','0.0.0.0']
 
 
 
