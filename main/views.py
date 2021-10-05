@@ -32,9 +32,6 @@ def lucky_draw():
     return val
 
 def home(request):
-    if(not request.user.is_authenticated):
-        messages.info(request,"Please Login/Register")
-        return redirect("/login")
     announcement = SiteAnnouncements.objects.all()
     return render(request,'home.html',{'announcement':announcement})
 
