@@ -78,7 +78,7 @@ def register(request):
         # Coupon.objects.get(link=link).delete()
         storage = messages.get_messages(request)
         storage.used = True
-        messages.info(request,e)
+        messages.info("Username already taken")
         return redirect('/')        
 
 def dashboard(request):
