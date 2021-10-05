@@ -10,6 +10,7 @@ class Cards(models.Model):
     scratched = models.BooleanField(default=False)
     redeemed = models.BooleanField(default=False)
     redeemed_date = models.DateTimeField(blank=True,null=True)
+    issued_by = models.ForeignKey(User,related_name = "issued_by" ,on_delete=models.CASCADE, null = True, blank = True)
     
 class Coupon(models.Model):
     name = models.CharField(max_length=200)
@@ -22,7 +23,6 @@ class Coupon(models.Model):
     link = models.CharField(max_length=20)
     cards = models.ManyToManyField(Cards,related_name='coupon')
     created_by = models.ForeignKey(User,on_delete=models.CASCADE)
-    issued_by = models.ForeignKey(User,related_name = "issued_by" ,on_delete=models.CASCADE, null = True, blank = True)
     date_created = models.DateTimeField(auto_now_add=True)
 
 class SiteAnnouncements(models.Model):
