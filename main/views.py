@@ -57,21 +57,28 @@ def login(request):
     return redirect('/')    
         
 def register(request):
-    if request.method=="POST":
-        first_name=request.POST["first_name"]
-        email=request.POST["email"]
-        username=request.POST["username"]
-        password=request.POST["password"]
-        branch=request.POST["branch"]
-        obj = User.objects.create_user(first_name=first_name,email=email,username=username,password=password,branch=branch)
+    try:
+        if request.method=="POST":
+            first_name=request.POST["first_name"]
+            email=request.POST["email"]
+            username=request.POST["username"]
+            password=request.POST["password"]
+            branch=request.POST["branch"]
+            obj = User.objects.create_user(first_name=first_name,email=email,username=username,password=password,branch=branch)
+            storage = messages.get_messages(request)
+            storage.used = True
+            messages.info(request,'Registration Successful')
+            return redirect('/')
+        else:
+            storage = messages.get_messages(request)
+            storage.used = True
+            messages.info(request,'Invalid Request')
+            return redirect('/')
+    except:
+        # Coupon.objects.get(link=link).delete()
         storage = messages.get_messages(request)
         storage.used = True
-        messages.info(request,'Registration Successful')
-        return redirect('/')
-    else:
-        storage = messages.get_messages(request)
-        storage.used = True
-        messages.info(request,'Invalid Request')
+        messages.info(request,e)
         return redirect('/')        
 
 def dashboard(request):
@@ -142,7 +149,10 @@ def addCoupon(request):
             messages.info(request,'Coupons Created and Shared Successfully')
             return redirect('/dashboard')
         except Exception as e:
-            Coupon.objects.get(link=link).delete()
+            try:
+                Coupon.objects.get(link=link).delete()
+            except:
+                pass
             storage = messages.get_messages(request)
             storage.used = True
             messages.info(request,e)
