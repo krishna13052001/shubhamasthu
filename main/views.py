@@ -88,6 +88,18 @@ def logout(request):
     messages.info(request,'Logout Successful')
     return redirect('/')
 
+import urllib.request
+import urllib.parse
+ 
+def sendSMS(apikey, numbers, sender, message):
+    data =  urllib.parse.urlencode({'apikey': apikey, 'numbers': numbers,
+        'message' : message, 'sender': sender})
+    data = data.encode('utf-8')
+    request = urllib.request.Request("https://api.textlocal.in/send/?")
+    f = urllib.request.urlopen(request, data)
+    fr = f.read()
+    return(fr)
+
 def addCoupon(request):
     if request.method=="POST":
         link = None
@@ -113,10 +125,15 @@ def addCoupon(request):
                 obj1 = Cards.objects.create(code=code,amount=amount)
                 obj.cards.add(obj1)
                 obj.save()
+            '''
             a = 'AC9d34ee7c820fc8c130178b93d3ea8f3f'#sathya krishna
             b = 'b90312976b5b536413b295027a9a91d9'#sathya krishna
             client = Client(a,b)    
             client.messages.create(body='Dear Customer, Click this link to grab your coupon shubhamasthu.herokuapp.com/scratch/'+ obj.link +' - Subhamasthu Shopping Mall. ',from_='+19093216268',to='+91'+str(mobile))
+            '''
+            sender='SBMSTU'
+            api = 'MWE4M2Y4MGRjY2QzZTRhMDkxOGUxYzhkOGViYTVjZWY='
+            sendSMS(apikey=api,sender=sender,numbers='+91'+str(mobile),message="Dear Customer, Click this link to grab your coupon shubhamasthu.herokuapp.com/scratch/"+obj.link+" - Subhamasthu Shopping Mall.")
             storage = messages.get_messages(request)
             storage.used = True
             messages.info(request,'Coupons Created and Shared Successfully')
