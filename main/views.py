@@ -32,6 +32,9 @@ def lucky_draw():
     return val
 
 def home(request):
+    if(not request.user.is_authenticated):
+        messages.info(request,"Please Login/Register")
+        return redirect("/login")
     announcement = SiteAnnouncements.objects.all()
     return render(request,'home.html',{'announcement':announcement})
 
@@ -101,6 +104,9 @@ def sendSMS(apikey, numbers, sender, message):
     return(fr)
 
 def addCoupon(request):
+    if(not request.user.is_authenticated):
+        messages.info(request,"Please Login/Register")
+        return redirect("/login")
     if request.method=="POST":
         link = None
         try:
@@ -151,6 +157,9 @@ def addCoupon(request):
 
 
 def validateCoupon(request):
+    if(not request.user.is_authenticated):
+        messages.info(request,"Please Login/Register")
+        return redirect("/login")
     if request.method=="POST":
         option = request.POST["option"]
         if option=="0":
@@ -171,6 +180,9 @@ import csv
 from django.http import HttpResponse
 from datetime import datetime
 def downStats(request):
+    if(not request.user.is_authenticated):
+        messages.info(request,"Please Login/Register")
+        return redirect("/login")
     if request.method=="POST":
         from_date = request.POST["from_date"]
         to_date = request.POST["to_date"]
@@ -232,6 +244,9 @@ def cardScratched(request,id):
     return render(request,'card.html',{'obj':obj})
 
 def redeem(request):
+    if(not request.user.is_authenticated):
+        messages.info(request,"Please Login/Register")
+        return redirect("/login")
     if request.method=="POST":
         option = request.POST["option"]
         if option=="0":
