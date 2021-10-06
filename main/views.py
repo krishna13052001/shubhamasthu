@@ -289,7 +289,7 @@ def markRedeem(request):
         my_vals = request.POST.getlist("list[]")
         for item in my_vals:
             # datetime.now().strftime("%d-%m-%Y %H-%M-%S")
-            Cards.objects.filter(id=item).update(redeemed=True,redeemed_date=datetime.now().strftime("%d-%m-%Y %H-%M-%S"),issued_by = request.user)
+            Cards.objects.filter(id=item).update(redeemed=True,redeemed_date=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),issued_by = request.user)
         storage = messages.get_messages(request)
         storage.used = True
         messages.info(request,'Selected Coupons are redeemed')
