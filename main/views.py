@@ -122,7 +122,7 @@ def addCoupon(request):
             # no_of_coupons = request.POST["no_of_coupons"]
             no_of_coupouns = eval(bill_amount)//999
             if(no_of_coupouns == 0):
-                messages.info(request,"No Coupons were created!")
+                messages.info(request,"No Coupons were")
                 return redirect('/dashboard')
             link = secrets.token_hex(10)
             obj = Coupon.objects.create(name=name,bill_id=bill_id,mobile=mobile,bill_amount=bill_amount,no_of_coupons=no_of_coupouns,created_by=request.user,link=link)
@@ -288,7 +288,8 @@ def markRedeem(request):
     if request.method=="POST":
         my_vals = request.POST.getlist("list[]")
         for item in my_vals:
-            Cards.objects.filter(id=item).update(redeemed=True,redeemed_date=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),issued_by = request.user)
+            # datetime.now().strftime("%d-%m-%Y %H-%M-%S")
+            Cards.objects.filter(id=item).update(redeemed=True,redeemed_date=datetime.now().strftime("%d-%m-%Y %H-%M-%S"),issued_by = request.user)
         storage = messages.get_messages(request)
         storage.used = True
         messages.info(request,'Selected Coupons are redeemed')
