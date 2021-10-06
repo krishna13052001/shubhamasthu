@@ -120,7 +120,10 @@ def addCoupon(request):
             mobile = request.POST["mobile"]
             bill_amount = request.POST["bill_amount"]
             # no_of_coupons = request.POST["no_of_coupons"]
-            no_of_coupouns = eval(bill_amount)//1000
+            no_of_coupouns = eval(bill_amount)//999
+            if(no_of_coupouns == 0):
+                messages.info(request,"No Coupons were created!")
+                return redirect('/dashboard')
             link = secrets.token_hex(10)
             obj = Coupon.objects.create(name=name,bill_id=bill_id,mobile=mobile,bill_amount=bill_amount,no_of_coupons=no_of_coupouns,created_by=request.user,link=link)
             obj.save()
