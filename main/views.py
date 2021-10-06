@@ -183,7 +183,7 @@ def downStats(request):
     if request.method=="POST":
         from_date = request.POST["from_date"]
         to_date = request.POST["to_date"]
-        obj = Coupon.objects.filter(date_created__range=(from_date,to_date),created_by=request.user)
+        obj = Coupon.objects.filter(date_created__range=(from_date,to_date))
         response = HttpResponse(content_type='text/csv')
         file_name = request.user.branch+'-'+request.user.username+'-'+datetime.now().strftime("%d-%m-%Y %H-%M-%S")+'-Coupon Report.csv'
         response['Content-Disposition'] = 'attachment; filename="'+file_name+'"'
@@ -212,7 +212,7 @@ def downStats(request):
                     unredeemed_codes+=card.code+','
             """writer.writerow([item.name,item.bill_id,item.email,item.mobile,item.no_of_coupons,item.bill_amount,item.created_by.branch,item.date_created,
             coupon_code,total_amount,scratched_codes,unscratched_codes,redeemed_codes,redeemed_dates,unredeemed_codes])"""
-            writer.writerow([item.name,item.bill_id,item.no_of_coupons,item.bill_amount,item.mobile,request.user,redeemed_dates])
+            writer.writerow([item.name,item.bill_id,item.no_of_coupons,item.bill_amount,item.mobile,item.created_by,redeemed_dates])
         return response
     return render(request,"downStats.html")
 
