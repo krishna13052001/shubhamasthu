@@ -13,5 +13,6 @@ urlpatterns = [
     path('cardScratched/<int:id>',views.cardScratched,name="cardScratched"),
     path('redeem',views.redeem,name="redeem"),
     path('markRedeem',views.markRedeem,name="markRedeem"),
+    path('redeemAmount', views.redeemAmount, name="reddemAmount"),
     path('empty',views.empty,name="empty")
 ]

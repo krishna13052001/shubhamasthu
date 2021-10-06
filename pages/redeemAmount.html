@@ -1,0 +1,24 @@
+{%extends "dashboard.html"%}
+{%block content%}
+<form action="/redeemAmount" method="POST">
+    {%csrf_token%}
+    <div class="row">
+        <div class="col-sm form-group">
+            <label for="from_date">From Date</label>
+            <input type="datetime-local" name="from_date" class="form-control" id="from_date" required>
+        </div>
+        <div class="col-sm form-group">
+            <label for="to_date">To Date</label>
+            <input type="datetime-local" name="to_date" class="form-control" id="to_date" required>
+        </div>
+    </div>
+    <input type="submit" value="Redeem Amount" class="btn btn-outline-success">
+    <h1>
+        Redeem Amount: <div id="amount">{{amount}}</div> 
+    </h1>
+</form>
+<script>
+    var amount = document.getElementById("amount").value;
+
+</script>
+{%endblock%}
