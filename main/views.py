@@ -206,13 +206,16 @@ def downStats(request):
         writer.writerow(['Name', 'Bill ID', 'Email', 'Mobile','No of Coupons', 'Bill Amount','Operator UserName'
                         'Branch Created','Time','Total Coupon Codes','Amount',
                         'Scratched Codes','Unscratched Codes','Redeemed Codes','Redeemed Dates','Not Redeemed Codes'])
-        writer.writerow(['Name',"Bill Number", "No of Cards","Amount", "Mobile Number","Operator UserName","Redeemed Time"])
+        # writer.writerow(['Name',"Bill Number", "No of Cards","Amount", "Mobile Number","Operator UserName","Redeemed Time"])
+        print("---------Hey---------------")
         for item in obj:
+            print("------------hello----------")
             coupon_code,total_amount = '',0
             scratched_codes,unscratched_codes='',''
             redeemed_codes,unredeemed_codes='',''
             redeemed_dates = ''
             for card in item.cards.all():
+                print("-----------------    What--------------")
                 coupon_code+=card.code+','
                 total_amount+=card.amount
                 if card.scratched==True:
@@ -224,6 +227,7 @@ def downStats(request):
                     redeemed_dates+=card.redeemed_date.strftime("%d-%m-%Y %H:%M:%S")+','
                 else:
                     unredeemed_codes+=card.code+','
+            print("hi I am here")
             writer.writerow([item.name,item.bill_id,item.email,item.mobile,item.no_of_coupons,item.bill_amount,item.created_by,item.created_by.branch,item.date_created,
             coupon_code,total_amount,scratched_codes,unscratched_codes,redeemed_codes,redeemed_dates,unredeemed_codes])
             #writer.writerow([item.name,item.bill_id,item.no_of_coupons,item.bill_amount,item.mobile,item.created_by,redeemed_dates])
