@@ -22,13 +22,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 from decouple import config
 import dj_database_url
-
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 # DEBUG = True
 DATABASES = {
     'default': dj_database_url.config(
-        default=config('DATABASE_URL')
+        default=config('HEROKU_POSTGRESQL_CRIMSON_URL')
     )
 }
 '''
