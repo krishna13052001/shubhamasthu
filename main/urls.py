@@ -15,5 +15,7 @@ urlpatterns = [
     path('redeem',views.redeem,name="redeem"),
     path('markRedeem',views.markRedeem,name="markRedeem"),
     path('redeemAmount', views.redeemAmount, name="reddemAmount"),
-    path('empty',views.empty,name="empty")
+    path('empty',views.empty,name="empty"),
+    path('vaildateotp',views.vaildateotp,name="vaildateotp")
+    
 ]

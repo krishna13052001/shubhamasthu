@@ -45,7 +45,7 @@ def login(request):
             storage = messages.get_messages(request)
             storage.used = True
             messages.info(request,'Login Success')
-            return redirect('/dashboard')
+            return redirect('/luckydraw/dashboard')
         else:
             storage = messages.get_messages(request)
             storage.used = True
@@ -371,3 +371,12 @@ def redeemData(request):
         writer.writerow([money_given])
         return response
     return render(request,"redeemData.html")
+
+def vaildateotp(request):
+    if(not request.user.is_authenticated):
+        messages.info(request,"Please Login/Register")
+        return redirect("/login")
+    if request.method == "POST":
+        pass
+    else:
+        return render(request,"vaildateotp.html")

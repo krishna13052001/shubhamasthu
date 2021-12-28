@@ -32,15 +32,17 @@ DATABASES = {
     )
 }
 '''
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
 '''
 
-ALLOWED_HOSTS = ['shubhamasthu.herokuapp.com','127.0.0.1','0.0.0.0']
+ALLOWED_HOSTS = ['shubhamasthu.herokuapp.com','127.0.0.1']
 
 
 
@@ -55,6 +57,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'main',
     'whitenoise',
+    'luckydraw'
 ]
 
 AUTH_USER_MODEL = 'main.User'

@@ -21,5 +21,6 @@ admin.site.site_title = 'Shubhamasthu CMS'
 admin.site.index_title = "Shubhamasthu CMS"
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('main.urls'))
+    path('',include('main.urls')),
+    path('luckydraw/',include('luckydraw.urls')),
 ]

@@ -1,6 +1,7 @@
 {%extends "dashboard.html"%} {%block content%}
 <br><br>
 <div class="container">
+    {% comment %} <form action="/addCoupon" method="POST"> {% endcomment %}
     <form action="/addCoupon" method="POST">
         {%csrf_token%}
         <div class="row">
