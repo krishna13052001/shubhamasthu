@@ -246,6 +246,7 @@ def redeemAmount(request):
     return render(request,"redeemAmount.html",{'amount':amount_value})
 
 def scratch(request,token):
+        return redirect('/luckydraw/scratch/'+str(token))
         cards = Cards.objects.filter(coupon__link=token)
         if len(cards)==0:
             storage = messages.get_messages(request)
