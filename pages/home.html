@@ -64,8 +64,10 @@
     <center>
         <div class="form-wrap">
             {%if request.user.is_superuser == False %}
-            <a href="/dashboard" class="btn btn-outline-primary">Dashboard</a> {%else%}
-            <a href="/dashboard" class="btn btn-outline-primary">Dashboard</a> {%endif%}
+                <a href="/luckydraw/dashboard" class="btn btn-outline-primary">Dashboard</a> 
+            {%else%}
+                <a href="/dashboard" class="btn btn-outline-primary">Dashboard</a> 
+            {%endif%}
             <a href="/logout" class="btn btn-outline-danger">Logout</a>
         </div>
     </center>
