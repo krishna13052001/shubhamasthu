@@ -78,6 +78,7 @@ def register(request):
         # Coupon.objects.get(link=link).delete()
         storage = messages.get_messages(request)
         storage.used = True
+        print(messages)
         messages.info(messages,"Username already taken")
         return redirect('/')        
 
@@ -381,3 +382,52 @@ def vaildateotp(request):
         pass
     else:
         return render(request,"vaildateotp.html")
+
+def changePassword(request):
+    if request.method=="POST":
+        username=request.POST["username"]
+        obj = User.objects.get(username=username)
+        number = random.randint(1000,9999)
+        request.session["username"]=username
+        request.session["otp_send"]=number
+        msg = 'Hi '+obj.first_name+',\n\n\tOTP To change password: '+str(number)
+        send_mail("Student Welfare - Password Change",msg,from_email='adityaintern11@gmail.com',recipient_list=[obj.email])
+        storage = messages.get_messages(request)
+        storage.used = True
+        messages.info(request,'OTP Shared to your email id')
+        return redirect('/validateOtp')
+    return render(request,"startRecovery.html")
+
+def validateOtp(request):
+    if request.method=="POST":
+        otp = request.POST["otp"]
+        if int(otp)==int(request.session["otp_send"]):
+            return redirect('/setNewPassword')
+        else:
+            return redirect('/changePassword')
+    return render(request,'validateOtp-pass.html')
+
+def setNewPassword(request):
+    if request.method=="POST":
+        password=request.POST["new_password"]
+        cnf_password=request.POST["cnf_password"]
+        if password==cnf_password:
+            password=make_password(password)
+            obj = User.objects.get(username=request.session["username"])
+            obj.password=password
+            obj.save()
+            storage = messages.get_messages(request)
+            storage.used = True
+            messages.info(request,'Password Changed Successfully')
+            return redirect('/')
+        else:
+            return redirect('/setNewPassword')
+    return render(request,'setNewPassword.html')
+
+from django.template import RequestContext
+
+
+def handler404(request, *args, **argv):
+    response = render(request,'404.html')
+    response.status_code = 404
+    return response

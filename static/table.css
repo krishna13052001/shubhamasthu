@@ -1,0 +1,25 @@
+.main {
+    color: #524b4b;
+    background: linear-gradient(rgb(172, 212, 224), rgb(85, 209, 231));
+    font-weight: 300;
+    font-size: 16px;
+}
+
+.table td {
+    background-color: rgb(152, 230, 240);
+}
+
+.table tr {
+    height: 50px;
+}
+
+.table-borderless>tbody>tr>td,
+.table-borderless>tbody>tr>th,
+.table-borderless>tfoot>tr>td,
+.table-borderless>tfoot>tr>th,
+.table-borderless>thead>tr>td,
+.table-borderless>thead>tr>th {
+    border: 5px solid #fff;
+    color: rgb(60, 88, 88);
+    font-weight: 300;
+}

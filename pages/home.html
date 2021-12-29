@@ -1,7 +1,144 @@
 {% load static%}
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subhamasthu Shopping CMS</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.css">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link rel="stylesheet" href="{% static 'new.css' %}">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'new_shubha.ico' %}"/>
+    <script src="{% static 'home.js' %}"></script>
+    <script src="{% static 'dash.js' %}"></script>
+</head>
+<body>
+    {% if announcement %}
+        <div class="alert alert-info">   
+            <marquee behavior="" direction="">    
+                <p>
+                    {%for item in announcement%}
+                        {{item.message}}&nbsp;&nbsp;{% if item.link_exist == True %} Link: <a href="{{item.link}}">Click Here</a>{% endif %} &nbsp;&nbsp;
+                    {%endfor%}  
+                </p>
+            </marquee>
+        </div>
+    {% endif %}
+    {% if request.user.is_authenticated == False%}
+        <div class="container-fluid">
+            <div class="container">
+            <p class="introHead"></p>
+                <div class="card" style="margin-top: 15vh; margin-bottom: 15vh;">
+                    <div class="row">
+                        <div class="col-md-6 img_left"></div>
+                        <div class="col-md-6 content">
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <div {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+                                    <div class="alert alert-success" role="alert">
+                                        {{message}} 
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            {%endif%}
+                            <ul class="nav nav-tabs nav-justified">
+                                <li class="nav-item"><a href="#login" class="nav-link active" data-bs-toggle="tab">Login</a>
+                                </li>
+                                <li class="nav-item"><a href="#signup" class="nav-link" data-bs-toggle="tab">Sign Up</a>
+                                </li>
+                            </ul>
 
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="login">
+                                    <form class="row mt-5 g-2 px-4" action="/login" method="POST" autocomplete="off"> 
+                                        {%csrf_token%}
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="floatingInput" name ="username"
+                                                placeholder="username" required>
+                                            <label for="floatingInput">Username</label>
+                                        </div>
+                                        <div class="form-floating mb-5">
+                                            <input type="password" class="form-control" id="floatingPassword" name = "password"
+                                                placeholder="Password" required>
+                                            <label for="floatingPassword">Password</label>
+                                        </div>
+                                        <div class="text-center">
+                                            <button class="btn btn-primary w-25 mb-3" value="Login">Login</button><br>
+                                            <a href="/changePassword">Forgot Password?</a>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="tab-pane" id="signup">
+                                    <form class="row mt-4 g-2 px-4" action="/register" method="POST" autocomplete="off">
+                                        {%csrf_token%}
+                                        <div class="form-floating mb-2">
+                                            <input type="text" class="form-control" id="floatingInput-fullname" name="first_name"
+                                                placeholder="Full Name" required>
+                                            <label for="floatingInput-fullname">Full Name</label>
+                                        </div>
+                                        <div class="form-floating mb-2">
+                                            <input type="email" class="form-control" id="floatingInput-email" name="email"
+                                                placeholder="name@example.com" required>
+                                            <label for="floatingInput-email">Email address</label>
+                                        </div>
+                                        <div class="form-floating mb-2">
+                                            <input type="text" class="form-control" id="floatingInput-username" name="username"
+                                                placeholder="Username" required>
+                                            <label for="floatingInput-username">Username</label>
+                                        </div>
+                                        <div class="form-floating mb-2">
+                                            <input type="password" class="form-control" id="floatingPassword-password" name = "password"
+                                                placeholder="Password" required>
+                                            <label for="floatingPassword-password">Password</label>
+                                        </div>
+                                        <select class="form-select p-3 mb-5 ms-1" name="branch" id="user_type acc" required>
+                                            <option value="Nellore">Nellore</option>
+                                            <option value="Tirupati">Tirupati</option>
+                                            <option value="Vijayawada">Vijayawada</option>
+                                        </select>
+                                        <div class="text-center mb-4">
+                                            <button class="btn btn-primary w-75" type="submit">Sign Up</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    {%else%}
+        <center>
+            <div class="form-wrap">
+                {%if request.user.is_superuser == False %}
+                    <script>
+                        window.location.href = "/luckydraw/dashboard";
+                    </script>
+                {%else%}
+                    <script>                   
+                        window.location.href = "/luckydraw/dashboard";
+                    </script>
+                {%endif%}
+            </div>
+        </center>
+    {%endif%}
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous">
+        </script>
+        <script>
+            AOS.init();
+        </script>
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+</body>
+</html>
+<!-- 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -77,4 +214,4 @@
     </div>
 </body>
 
-</html>
+</html>-->
