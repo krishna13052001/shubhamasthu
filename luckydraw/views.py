@@ -27,7 +27,7 @@ def validateMobileNumber(request):
         request.session["otp"] = otp
         sender='SBMSTU'
         api = 'MWE4M2Y4MGRjY2QzZTRhMDkxOGUxYzhkOGViYTVjZWY='
-        sendSMS(apikey=api,sender=sender,numbers='+91'+str(request.session["mobile"]),message="Dear Customer, Click this link to grab your coupon shubhamasthu.herokuapp.com/scratch/"+otp+" - Subhamasthu Shopping Mall.")
+        sendSMS(apikey=api,sender=sender,numbers='+91'+str(request.session["mobile"]),message=f"Dear Customer, your one time password for Lucky Draw Coupon is {otp} - Subhamasthu Shopping Mall")
         storage = messages.get_messages(request)
         storage.used = True
         messages.info(request,'OTP sent successfully')
@@ -188,7 +188,7 @@ def redeemCoupon(request):
         request.session['card_id'] = card_obj[0].id
         sender='SBMSTU'
         api = 'MWE4M2Y4MGRjY2QzZTRhMDkxOGUxYzhkOGViYTVjZWY='
-        sendSMS(apikey=api,sender=sender,numbers='+91'+str(mobile),message="Dear Customer, Click this link to grab your coupon shubhamasthu.herokuapp.com/scratch/"+otp+" - Subhamasthu Shopping Mall.")
+        sendSMS(apikey=api,sender=sender,numbers='+91'+str(mobile),message=f"Dear Customer, your one time password for Lucky Draw Coupon is {otp} - Subhamasthu Shopping Mall")
         return redirect('/luckydraw/redeemotp')
     return render(request,"luckydraw/redeemCoupon.html")
 from datetime import datetime
