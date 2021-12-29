@@ -152,7 +152,7 @@ def scratch(request,token):
             storage = messages.get_messages(request)
             storage.used = True
             messages.info(request,'error')
-            return redirect('/')
+            return redirect('/luckydraw/dashboard')
         else:
             n = 1
             di = {}
