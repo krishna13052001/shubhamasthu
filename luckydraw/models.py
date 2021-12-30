@@ -6,6 +6,7 @@ from main.models import User
 class CouponCount(models.Model):
     nellore_count = models.IntegerField(default=0)
     tirupati_count = models.IntegerField(default=0)
+    vijayawada_count = models.IntegerField(default=0)
 
 class Cards(models.Model):
     code = models.CharField(max_length=10)

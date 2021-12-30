@@ -120,6 +120,27 @@ def createCoupon(request):
                         obj1 = Cards.objects.create(code='NLR'+str(code).zfill(7),luckycard_issued_by=request.user)
                         obj.lucky_cards.add(obj1)
                         obj.save()
+                elif request.user.branch == "Vijayawada":
+                    object = CouponCount.objects.all()
+                    if len(object)>0:
+                        code = object[0].vijayawada_count
+                        object[0].vijayawada_count+=1
+                        object[0].save()
+                        count = 0
+                        while count!=10 and Cards.objects.filter(code='VJY'+str(code).zfill(7)).exists():
+                            code = object[0].vijayawada_count
+                            object[0].vijayawada_count+=1
+                            object[0].save()
+                            count+=1
+                        if count==10:
+                            storage = messages.get_messages(request)
+                            storage.used = True
+                            messages.info(request,'Count 10: please try after 5 minutes')
+                            deleteCoupon(obj.id)
+                            return redirect('/luckydraw/dashboard')
+                        obj1 = Cards.objects.create(code='VJY'+str(code).zfill(7),luckycard_issued_by=request.user)
+                        obj.lucky_cards.add(obj1)
+                        obj.save()
             sender='SBMSTU'
             api = 'MWE4M2Y4MGRjY2QzZTRhMDkxOGUxYzhkOGViYTVjZWY='
             sendSMS(apikey=api,sender=sender,numbers='+91'+str(mobile),message="Dear Customer, Click this link to grab your coupon shubhamasthu.herokuapp.com/scratch/"+obj.link+" - Subhamasthu Shopping Mall.")

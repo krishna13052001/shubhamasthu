@@ -9,7 +9,7 @@ class CardRef(admin.ModelAdmin):
     list_display = ['code','scratched','redeemed','redeemed_date']
     list_filter = ['code','scratched','redeemed','redeemed_date']
 class CouponCountRef(admin.ModelAdmin):
-    list_display = ['tirupati_count','nellore_count']
+    list_display = ['tirupati_count','nellore_count','vijayawada_count']
 class WinnerRef(admin.ModelAdmin):
     list_display = ('winner_code','winner_coupon_name','winner_coupon_mobile')
     def winner_code(self, instance):
