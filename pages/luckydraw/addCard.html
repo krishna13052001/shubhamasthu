@@ -1,31 +1,35 @@
 {%extends "luckydraw/dashboard.html"%} {%block content%}
 <br><br>
-<div class="container">
+<div class="container mt-5">
     {% comment %} <form action="/luckydraw/validateMobileNumber" method="POST"> {% endcomment %}
     <form action="/luckydraw/validateMobileNumber" method="POST">
         {%csrf_token%}
         <div class="row">
             <div class="form-group col-sm">
-                <label for="name">Customer Name</label>
+                <strong><label for="name">Customer Name</label></strong>
                 <input type="text" name="name" id="name" class="form-control" required>
             </div>
             <div class="form-group col-sm">
-                <label for="Bill Number">Bill Number</label>
+                <strong><label for="Bill Number">Bill Number</label></strong>
                 <input type="text" name="bill_id" id="Bill ID" class="form-control" required>
                 <small>It Should not be Dupilcate</small>
             </div>
         </div>
+        <br>
+        <br>
         <div class="row">
             <div class="form-group col-sm" aria-autocomplete="off">
-                <label for="phone">Phone Number</label>
+                <strong><label for="phone">Phone Number</label></strong>
                 <input type="text" name="mobile" id="phone" class="form-control" required>
                 <small>Enter 10 digit mobile number only</small>
             </div>
             <div class="form-group col-sm">
-                <label for="bill_amount">Bill Amount</label>
+                <strong><label for="bill_amount">Bill Amount</label></strong>
                 <input type="text" name="bill_amount" id="bill_amount" class="form-control" onkeyup="totalValue()" required>
             </div>
         </div>
+        <br>
+        <br>
         <div>
             <span>
                 <h5>No of Coupouns Issues: <span id="no_of_coupons">o</span></h5>

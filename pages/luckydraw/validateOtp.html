@@ -1,13 +1,22 @@
 {%extends "luckydraw/dashboard.html"%}
 {%block content%}
-<form action="/luckydraw/validateOtp" method="POST">
-    {%csrf_token%}
-    <div class="row">
-        <div class="col-sm form-group">
-            <label for="otp">Enter OTP Received</label>
-            <input type="text" class="form-control" id="otp" name="otp" required>
+
+<div class="container mt-5">
+    <form action="/luckydraw/validateOtp" method="POST" autocomplete="off">
+        {%csrf_token%}
+        <div class="row form-group">
+            <div class="col-sm-6 ">
+                <label for="otp" class="form-label">Enter OTP Received</label>
+                <input type="text" class="form-control" id="otp" name="otp" required>
+            </div>
         </div>
-        <input type="submit" class="btn btn-primary">
-    </div>
-</form>
+        <br>
+        <div class="row form-group">
+            <div class="col-sm-3 ">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+        {% comment %} <input type="submit" class="btn btn-primary"> {% endcomment %}
+    </form>
+</div>
 {%endblock%}

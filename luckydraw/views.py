@@ -22,8 +22,11 @@ def validateMobileNumber(request):
         request.session["mobile"] = request.POST["mobile"]
         request.session["bill_amount"] = request.POST["bill_amount"]
         string = '0123456789'
+        if(int(eval(request.session["bill_amount"]))< 999):
+            messages.info(request,"Bill Amount is less than 999")
+            return redirect('/luckydraw/dashboard')
         otp = ''.join([random.choice(string) for i in range(0,4)])
-        print(otp)
+        # print(otp)
         request.session["otp"] = otp
         sender='SBMSTU'
         api = 'MWE4M2Y4MGRjY2QzZTRhMDkxOGUxYzhkOGViYTVjZWY='
@@ -41,7 +44,8 @@ def validateOtp(request):
         try:
             if(request.POST["otp"]==request.session["otp"]):
                 request.session["otp"]=None
-                createCoupon(request)
+                return createCoupon(request)
+                # return redirect('/luckydraw/dashboard')
             else:
                 storage = messages.get_messages(request)
                 storage.used = True
