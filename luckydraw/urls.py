@@ -12,4 +12,5 @@ urlpatterns = [
     path('weekly',views.weekly,name="redeemCoupon"),
     path('redeemotp',views.redeemotp,name="redeemotp"),
     path('validateCoupon',views.validateCoupon,name="validateCoupon"),
+    path('informCustomer',views.informCustomer,name="informCustomer"),
 ]

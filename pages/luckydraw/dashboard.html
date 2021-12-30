@@ -33,7 +33,6 @@
               <a class="nav-link" href="/luckydraw/validateCoupon">Validate Coupon</a>
               <a class="nav-link" href="/logout">Log out</a>
             
-          
         </div>
       </div>
     </div>
@@ -55,13 +54,13 @@
             <a href="/luckydraw/weekly" class="nav-link">Weekly Draw</a>
             <a href="/luckydraw/redeemCoupon" class="nav-link">Bumper Draw</a>
             <a href="/luckydraw/validateCoupon" class="nav-link">Validate Coupon</a>
+            <a href="/luckydraw/informCustomer" class="nav-link">Inform</a>
             <a href="/logout" class="nav-link">Logout</a>
           {% endblock %}
         </div>
       </div>
     </div>
   </nav> {% endcomment %}
-
   <div class="container-fluid" style="margin-bottom: 5vh;">
     {% if messages %}
       {% for message in messages %}
@@ -71,9 +70,41 @@
           </div>
         </div>
       {% endfor %}
+      <div>
+        {% if displayCoupon == True %}
+           <div class="container inProgress">
+               <div style="text-align:center"> 
+               <p class="p-0 inProgressHeading">
+                   Congratulations - శుభాకాంక్షలు<br/>
+                   Total no of Coupon Codes {{n}}
+               </p>
+               </div>
+           
+               <div class="progressCardsRow">
+               <div class="row">
+                   {%for object  in cards %}
+                       <div class="col-12 col-md-6 col-xxl-3">
+                       <a href="" style="text-decoration: none; color: #000;">
+                           <div class="progressCard card border-0">
+                           <div class="row">
+                               <div class="col details">
+                               <p class="faculty mb-0">
+                                   <stong>Coupon Code: </strong>Code - {{object.code}}
+                               </p>
+                               </div>
+                           </div>
+                           </div>
+                       </a>
+                       </div>
+                   {% endfor %}
+               </div>
+               </div>
+           </div>
+       {% endif%}
+   </div>
     {%endif%} 
-      {%block content%}
-    {%endblock%}  
+        {%block content%}
+        {%endblock%}  
     </div>
 
   </div>

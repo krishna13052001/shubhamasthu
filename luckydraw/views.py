@@ -125,6 +125,10 @@ def createCoupon(request):
             sendSMS(apikey=api,sender=sender,numbers='+91'+str(mobile),message="Dear Customer, Click this link to grab your coupon shubhamasthu.herokuapp.com/scratch/"+obj.link+" - Subhamasthu Shopping Mall.")
             storage = messages.get_messages(request)
             storage.used = True
+            request.session["displayCoupon"]=True
+            request.session["couponId"] = obj.id
+            print(request.session["displayCoupon"])
+            print(request.session["couponId"])
             messages.info(request,'Coupons Created and Shared Successfully')
             return redirect('/luckydraw/dashboard')
         except Exception as e:
@@ -147,7 +151,16 @@ def dashboard(request):
     if(not request.user.is_authenticated):
         messages.info(request,"Please Login/Register")
         return redirect("/login")
-    return render(request,'luckydraw/dashboard.html')
+    displayCoupon = request.session.get("displayCoupon",False)
+    coupon_obj = None
+    if displayCoupon==True:
+        coupon_obj = Coupon.objects.filter(id=request.session["couponId"]).select_related()
+        request.session["displayCoupon"]=False
+        cards = coupon_obj[0].lucky_cards.all()
+        n = len(coupon_obj[0].lucky_cards.all())
+        return render(request,'luckydraw/dashboard.html',{"displayCoupon":displayCoupon,"cards":cards,"n":n})
+    else:
+        return render(request,'luckydraw/dashboard.html',{"displayCoupon":displayCoupon,"cards":None,"n":0})
 
 def scratch(request,token):
         cards = Cards.objects.filter(lucky_cards__link=token)
@@ -276,3 +289,19 @@ def daily(request):
     if request.method == "POST":
         pass
     return render(request,'luckydraw/daily.html')
+
+def informCustomer(request):
+    if(not request.user.is_authenticated):
+        messages.info(request,"Please Login/Register")
+        return redirect("/login")
+    if request.method == "POST":
+        code = request.POST.get('code')
+        card_obj = Cards.objects.filter(code=code).select_related()
+        mobile = card_obj[0].lucky_cards.all()[0].mobile
+        sender='SBMSTU'
+        api = 'MWE4M2Y4MGRjY2QzZTRhMDkxOGUxYzhkOGViYTVjZWY='
+        sendSMS(apikey=api,sender=sender,numbers='+91'+str(mobile),message=f"Dear Customer, your one time password for Lucky Draw Coupon is {123456} - Subhamasthu Shopping Mall")
+        storage = messages.get_messages(request)
+        storage.used = True
+        messages.info(request,"Lucky Person informed")
+    return render(request,'luckydraw/informCustomer.html')
