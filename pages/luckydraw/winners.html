@@ -1,0 +1,22 @@
+{% extends "luckydraw/dashboard.html"%}
+{% block content %}
+<div class="row">
+    {%for object  in winners %}
+        <div class="col-12 col-md-6 col-xxl-3">
+        <a href="" style="text-decoration: none; color: #000;">
+            <div class="progressCard card border-0">
+            <div class="row">
+                <div class="col details">
+                <p class="faculty mb-0">
+                    <stong>Card Number: </strong>{{object.winner_card.code}}
+                    <stong>Name: </strong>{{object.winner_coupon.name}}
+                    <stong>Mobile Number: </strong>{{object.winner_coupon.mobile}}
+                </p>
+                </div>
+            </div>
+            </div>
+        </a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

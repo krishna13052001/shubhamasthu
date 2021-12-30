@@ -26,3 +26,7 @@ class Coupon(models.Model):
     lucky_cards = models.ManyToManyField(Cards,related_name='lucky_cards')
     lucky_created_by = models.ForeignKey(User,on_delete=models.CASCADE,related_name = "lucky_created_by")
     date_created = models.DateTimeField(auto_now_add=True)
+
+class Winner(models.Model):
+    winner_coupon = models.ForeignKey(Coupon,on_delete=models.CASCADE,related_name='winner_coupon_id')
+    winner_card = models.ForeignKey(Cards,on_delete=models.CASCADE,related_name="winner_card_id")

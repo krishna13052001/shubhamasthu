@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib import messages
-from .models import Coupon,Cards,CouponCount
+from .models import Coupon,Cards,CouponCount,Winner
 import secrets
 import random
 import urllib
@@ -297,6 +297,8 @@ def informCustomer(request):
     if request.method == "POST":
         code = request.POST.get('code')
         card_obj = Cards.objects.filter(code=code).select_related()
+        coupon_obj = card_obj[0].lucky_cards.all()[0]
+        Winner.objects.create(winner_card=card_obj[0],winner_coupon=coupon_obj)
         mobile = card_obj[0].lucky_cards.all()[0].mobile
         sender='SBMSTU'
         api = 'MWE4M2Y4MGRjY2QzZTRhMDkxOGUxYzhkOGViYTVjZWY='
@@ -305,3 +307,7 @@ def informCustomer(request):
         storage.used = True
         messages.info(request,"Lucky Person informed")
     return render(request,'luckydraw/informCustomer.html')
+
+def displayWinners(request):
+    winners = Winner.objects.all().select_related()
+    return render(request,"luckydraw/winners.html",{'winners':winners})
