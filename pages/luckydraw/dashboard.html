@@ -19,7 +19,7 @@
   <nav class="navbar navbar-expand-lg navbar-light bg-white">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
-        Welcome, <string>student!</strong>
+        Welcome, <string>{{request.user.username}}!</strong>
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
         aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,11 +27,11 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav ms-auto">
-            
-              <a class="nav-link" aria-current="page" href="/student/enrollments">Your Courses</a>
-              <a class="nav-link" href="/student/makeBookRequest">Library</a>
-              <a class="nav-link" href="/student/requestService">Request Service</a>
-              <a class="nav-link" href="/student/studAnnouncement">Anouncements</a>
+              <a class="nav-link" href="/luckydraw/dashboard">Home</a>
+              <a class="nav-link" aria-current="page" href="/luckydraw/addCoupon">Add Coupon</a>
+              <a class="nav-link" href="/luckydraw/redeemCoupon">Weekly Draw</a>
+              <a class="nav-link" href="/luckydraw/redeemCoupon">Bumper Draw</a>
+              <a class="nav-link" href="/luckydraw/validateCoupon">Validate Coupon</a>
               <a class="nav-link" href="/logout">Log out</a>
             
           
