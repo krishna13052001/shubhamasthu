@@ -3,6 +3,7 @@ body {
   }
   
   .mycard {
+    background-image: url("../assets/card_tag.png") !important;
     position: relative;
     width: 300px;
     height: 300px;
