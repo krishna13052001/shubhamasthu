@@ -66,7 +66,7 @@ def createCoupon(request):
             bill_id = str(request.session["bill_id"])
             mobile = request.session["mobile"]
             bill_amount = request.session["bill_amount"]
-            no_of_coupouns = eval(bill_amount)//499
+            no_of_coupouns = eval(bill_amount)//999
             if(no_of_coupouns == 0):
                 messages.info(request,"No Coupons were")
                 return redirect('/luckydraw/dashboard')
