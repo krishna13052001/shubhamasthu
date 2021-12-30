@@ -1,15 +1,21 @@
 {%extends "luckydraw/dashboard.html"%}
 {%block content%}
-<form action="/luckydraw/redeemCoupon" method="POST" autocomplete="off">
+<div class="container mt-5">
+<form action="/luckydraw/weekly" method="POST" autocomplete="off">
     {%csrf_token%}
-    <div class="row">
+    <div class="row form-group">
         <div class="col-sm-3">
-            <div class="form-group">
-                <label for="code">Card Code</label>
+                <string><label for="code">Card Code</label></strong>
                 <input type="text" name="code" id="code" class="form-control" required>
             </div>
         </div>
     </div>
-    <input type="submit" class="btn btn-success" value="Check Code">
+    <div class="row form-group">
+        <div class="col-sm-3">
+            <button type="submit" class="btn btn-primary">Redeem</button>
+        </div>
+    </div>
+    {% comment %} <input type="submit" class="btn btn-success" value="Check Code"> {% endcomment %}
 </form>
+</div>
 {%endblock%}

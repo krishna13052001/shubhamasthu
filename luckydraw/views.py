@@ -249,8 +249,24 @@ def weekly(request):
     if(not request.user.is_authenticated):
         messages.info(request,"Please Login/Register")
         return redirect("/login")
-    if request.method == "POST":
-        pass
+    if request.method=="POST":
+        code = request.POST.get('code')
+        card_obj = Cards.objects.filter(code=code).select_related()
+        if card_obj[0].redeemed == True:
+            storage = messages.get_messages(request)
+            storage.used = True
+            messages.info(request,"Already Redeemed")
+            return redirect('/luckydraw/dashboard')
+        mobile = card_obj[0].lucky_cards.all()[0].mobile
+        string = '0123456789'
+        otp = ''.join([random.choice(string) for i in range(0,4)])
+        print(otp)
+        request.session["otp"] = otp
+        request.session['card_id'] = card_obj[0].id
+        sender='SBMSTU'
+        api = 'MWE4M2Y4MGRjY2QzZTRhMDkxOGUxYzhkOGViYTVjZWY='
+        sendSMS(apikey=api,sender=sender,numbers='+91'+str(mobile),message=f"Dear Customer, your one time password for Lucky Draw Coupon is {otp} - Subhamasthu Shopping Mall")
+        return redirect('/luckydraw/redeemotp')
     return render(request,'luckydraw/weekly.html')
 
 def daily(request):
