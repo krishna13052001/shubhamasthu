@@ -240,3 +240,19 @@ def validateCoupon(request):
             # print(obj)
             return render(request,'luckydraw/validateCoupon.html',{'obj':obj})
     return render(request,'luckydraw/validateCoupon.html')
+
+def weekly(request):
+    if(not request.user.is_authenticated):
+        messages.info(request,"Please Login/Register")
+        return redirect("/login")
+    if request.method == "POST":
+        pass
+    return render(request,'luckydraw/weekly.html')
+
+def daily(request):
+    if(not request.user.is_authenticated):
+        messages.info(request,"Please Login/Register")
+        return redirect("/login")
+    if request.method == "POST":
+        pass
+    return render(request,'luckydraw/daily.html')
