@@ -25,10 +25,11 @@
           {%for key, value  in cards.items %}
             <div class="col-12 col-md-6 col-xxl-3">
               <a href="" style="text-decoration: none; color: #000;">
-                <div class="progressCard card border-0">
-                  <div class="card-header bg-white">
+                <div class="progressCard card border-0" style="position: relative;">
+                  <img src="{% static 'card_tag.png'%}" alt="">
+                  <div class="card-header" style="position:absolute;padding: 0px;color: red;font-size: medium;font-weight: 200;">
                     <span>
-                      <strong class="courseName">S.NO - {{key}}</strong>
+                      <strong class="courseName">S.No - {{key}}</strong>
                     </span>
                   </div>
                   <div class="row">
