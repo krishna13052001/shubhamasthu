@@ -219,3 +219,24 @@ def redeemotp(request):
             messages.info(request,e)
             return redirect('/luckydraw/dashboard')
     return render(request,'luckydraw/redeemotp.html')            
+
+def validateCoupon(request):
+    if(not request.user.is_authenticated):
+        messages.info(request,"Please Login/Register")
+        return redirect("/login")
+    if request.method=="POST":
+        option = request.POST["option"]
+        if option=="0":
+            link = request.POST["link"]
+            obj = Cards.objects.filter(lucky_cards__link=link).all().select_related()    
+            return render(request,'luckydraw/validateCoupon.html',{'obj':obj})
+        elif option=="1":
+            bill_id = request.POST['bill_id']
+            obj = Cards.objects.filter(lucky_cards__bill_id=bill_id).all().select_related()    
+            return render(request,'luckydraw/validateCoupon.html',{'obj':obj})
+        elif option=="2":
+            mobile = request.POST['mobile']
+            obj = Cards.objects.filter(lucky_cards__mobile=mobile).all().select_related()
+            # print(obj)
+            return render(request,'luckydraw/validateCoupon.html',{'obj':obj})
+    return render(request,'luckydraw/validateCoupon.html')
