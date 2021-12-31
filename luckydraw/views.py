@@ -358,14 +358,14 @@ def downStats(request):
         response['Content-Disposition'] = 'attachment; filename="'+file_name+'"'
         writer = csv.writer(response)
         #  name, bill number,No of Copouns, amount, mobile number, operator, Redeemed time
-        writer.writerow(['Name', 'Bill ID', 'Mobile','No of Coupons', 'Bill Amount','Operator UserName','Time','Total Coupon Codes'])
+        writer.writerow(['Name', 'Bill ID', 'Mobile','No of Coupons', 'Bill Amount','Total Bill Amount','Operator UserName','Time','Total Coupon Codes'])
         # writer.writerow(['Name',"Bill Number", "No of Cards","Amount", "Mobile Number","Operator UserName","Redeemed Time"])
         for item in obj:
             coupon_code = ''
             for card in item.lucky_cards.all():
                 coupon_code+=card.code+','
             # print("hi I am here")
-            writer.writerow([item.name,item.bill_id,item.mobile,item.no_of_coupons,eval(item.bill_amount),item.lucky_created_by,item.date_created,coupon_code])
+            writer.writerow([item.name,item.bill_id,item.mobile,item.no_of_coupons,item.bill_amount,eval(item.bill_amount),item.lucky_created_by,item.date_created,coupon_code])
             #writer.writerow([item.name,item.bill_id,item.no_of_coupons,item.bill_amount,item.mobile,item.created_by,redeemed_dates])
         return response
     return render(request,"luckydraw/downStats.html")
