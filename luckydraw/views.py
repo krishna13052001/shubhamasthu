@@ -265,17 +265,15 @@ def validateCoupon(request):
     if request.method=="POST":
         option = request.POST["option"]
         if option=="0":
-            link = request.POST["link"]
-            obj = Cards.objects.filter(lucky_cards__link=link).all().select_related()    
-            return render(request,'luckydraw/validateCoupon.html',{'obj':obj})
-        elif option=="1":
-            bill_id = request.POST['bill_id']
-            obj = Cards.objects.filter(lucky_cards__bill_id=bill_id).all().select_related()    
-            return render(request,'luckydraw/validateCoupon.html',{'obj':obj})
-        elif option=="2":
+            # link = request.POST["link"]
+            # obj = Cards.objects.filter(lucky_cards__link=link).all().select_related()    
+            # return render(request,'luckydraw/validateCoupon.html',{'obj':obj})
             mobile = request.POST['mobile']
             obj = Cards.objects.filter(lucky_cards__mobile=mobile).all().select_related()
-            # print(obj)
+            return render(request,'luckydraw/validateCoupon.html',{'obj':obj})
+        elif option=="1":
+            couponcode = request.POST['couponcode']
+            obj = Cards.objects.filter(code=couponcode).all().select_related()    
             return render(request,'luckydraw/validateCoupon.html',{'obj':obj})
     return render(request,'luckydraw/validateCoupon.html')
 
@@ -320,6 +318,7 @@ def informCustomer(request):
         card_obj = Cards.objects.filter(code=code).select_related()
         coupon_obj = card_obj[0].lucky_cards.all()[0]
         message = request.POST.get('message')
+        sample = code+"["+message+"]"
         Winner.objects.create(winner_card=card_obj[0],winner_coupon=coupon_obj,message=message)
         mobile = card_obj[0].lucky_cards.all()[0].mobile
         date_var = datetime.now().strftime('%d/%m/%Y')
@@ -328,7 +327,7 @@ def informCustomer(request):
         api = 'MWE4M2Y4MGRjY2QzZTRhMDkxOGUxYzhkOGViYTVjZWY='
         try:
             # sendSMS(apikey=api,sender=sender,numbers='+91'+str(mobile),message=f"Dear Customer, your one time password for Lucky Draw Coupon is {123456} - Subhamasthu Shopping Mall")
-            sendSMS(apikey=api,sender=sender,numbers='+91'+str(mobile),message=f"Congratulations Dear Customer, You have won the lucky draw of {message} which was drawn on Date {date_var}. Please show this message to the Showroom Manager for further process & conditions apply - Subhamasthu Shopping Mall")
+            sendSMS(apikey=api,sender=sender,numbers='+91'+str(mobile),message=f"Congratulations Dear Customer, You have won the lucky draw of {sample} which was drawn on Date {date_var}. Please show this message to the Showroom Manager for further process & conditions apply - Subhamasthu Shopping Mall")
         except:
             storage = messages.get_messages(request)
             storage.used = True

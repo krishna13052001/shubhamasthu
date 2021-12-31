@@ -28,40 +28,22 @@
         <div class="navbar-nav ms-auto">
               <a class="nav-link" href="/luckydraw/dashboard">Home</a>
               <a class="nav-link" aria-current="page" href="/luckydraw/addCoupon">Add Coupon</a>
-              <a class="nav-link" href="/luckydraw/weekly">Weekly Draw</a>
-              <a class="nav-link" href="/luckydraw/redeemCoupon">Bumper Draw</a>
+              {%if request.user.is_superuser == True %}
+                <a href="/luckydraw/informCustomer" class="nav-link">Inform Customer</a>
+                <a class="nav-link" href="/luckydraw/weekly">Weekly Draw</a>
+                <a class="nav-link" href="/luckydraw/redeemCoupon">Bumper Draw</a>
+              {% endif %}
               <a class="nav-link" href="/luckydraw/validateCoupon">Validate Coupon</a>
-              <a href="/luckydraw/informCustomer" class="nav-link">Inform Customer</a>
-              <a href="/luckydraw/displayWinners" class="nav-link">Display Winners</a>
+              {% if request.user.is_superuser == True %}
+                <a href="/luckydraw/displayWinners" class="nav-link">Display Winners</a>
+              {% endif %}
+              <a class="nav-link" href="/luckydraw/changePassword">Change Password</a>
               <a class="nav-link" href="/logout">Log out</a>
             
         </div>
       </div>
     </div>
   </nav>
-  {% comment %} <nav class="navbar navbar-expand-lg navbar-light bg-white">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">
-        Welcome, <string>{{request.user.username}}!</string>
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav ms-right">
-          {% block navbar%}
-            <a class="nav-item nav-link" href="{% url 'dashboard' %}">Dashboard</a>
-            <a href="/luckydraw/addCoupon" class="nav-link">Add Coupon</a>
-            <a href="/luckydraw/weekly" class="nav-link">Weekly Draw</a>
-            <a href="/luckydraw/redeemCoupon" class="nav-link">Bumper Draw</a>
-            <a href="/luckydraw/validateCoupon" class="nav-link">Validate Coupon</a>
-            <a href="/logout" class="nav-link">Logout</a>
-          {% endblock %}
-        </div>
-      </div>
-    </div>
-  </nav> {% endcomment %}
   <div class="container-fluid" style="margin-bottom: 5vh;">
     {% if messages %}
       {% for message in messages %}

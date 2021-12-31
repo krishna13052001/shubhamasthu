@@ -6,23 +6,28 @@
     <div class="row">
         <div class="col-sm-7 form-group">
             <label for="option" class="form-label">Select Appropriate Search Option</label>
-            <select name="option" id="option" class="form-control" value="2" onchange="display(this.value)">
+            <select name="option" id="option" class="form-control" value="0" onchange="display(this.value)">
                 {% comment %} <option value="0">Search Based on Link</option> {% endcomment %}
                 {% comment %} <option value="1">Search Based on Customer Bill ID</option> {% endcomment %}
-                <option value="2">Search Based on Customer Mobile Number</option>
+                <option value="0">Search Based on Customer Mobile Number</option>
+                <option value="1">Search Based on Coupon Code</option>
             </select>
         </div>
-        <div class="col-sm-3 form-group" id="0" style="display: none;">
+        <!-- <div class="col-sm-3 form-group" id="0" style="display: none;">
             <label for="lid" class="form-label" >Link ID</label><br>
             <input type="text" id="lid" name="link" class="form-control">
         </div>
         <div class="col-sm-3 form-group" id="1" style="display: none;">
             <label for="billid" class="form-label">Bill ID</label>
             <input type="text" id="billid" name="bill_id" class="form-control">
-        </div>
-        <div class="col-sm-3 form-group" id="2" >
+        </div>-->
+        <div class="col-sm-3 form-group" id="0" >
             <label for="mobile" class="form-label">Mobile Number</label>
             <input type="text" id="mobile" name="mobile" class="form-control">
+        </div>
+        <div class="col-sm-3 form-group" id="1" style="display: none;">
+            <label for="couponcode" class="form-label">Coupon Code</label>
+            <input type="text" id="couponcode" name="couponcode" class="form-control">
         </div>
         <div class="col-sm-2 form-group">
             <br><center><input type="submit" value="Submit" class="btn btn-primary" required></center>
