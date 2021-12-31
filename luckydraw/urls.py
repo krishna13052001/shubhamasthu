@@ -18,4 +18,5 @@ urlpatterns = [
     path('setNewPassword',views.setNewPassword,name="setNewPassword"),
     path('validatePasswordOtp',views.validatePasswordOtp,name="validatePasswordOtp"),
     path('changePassword',views.changePassword,name="changePassword"),
+    path('deleteCoupon',views.deleteCouponCode,name="deleteCouponCode"),
 ]

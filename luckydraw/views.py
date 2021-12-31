@@ -341,6 +341,9 @@ def informCustomer(request):
     return render(request,'luckydraw/informCustomer.html')
 
 def displayWinners(request):
+    if(not request.user.is_authenticated):
+        messages.info(request,"Please Login/Register")
+        return redirect("/login")
     winners = Winner.objects.all().select_related()
     return render(request,"luckydraw/winners.html",{'winners':winners})
 import csv
@@ -401,6 +404,9 @@ def validatePasswordOtp(request):
     return render(request,'changepassword/validateOtp.html')
 
 def setNewPassword(request):
+    if(not request.user.is_authenticated):
+        messages.info(request,"Please Login/Register")
+        return redirect("/login")
     if request.method=="POST":
         password=request.POST["new_password"]
         cnf_password=request.POST["cnf_password"]
@@ -419,3 +425,18 @@ def setNewPassword(request):
             messages.info(request,'Passwords not matching')
             return redirect('/luckydraw/setNewPassword')
     return render(request,'changepassword/setNewPassword.html')
+
+def deleteCouponCode(request):
+    if(not request.user.is_authenticated):
+        messages.info(request,"Please Login/Register")
+        return redirect("/login")
+    if request.method=="POST":
+        print("hello")
+        billId=request.POST["billid"]
+        obj = Coupon.objects.get(bill_id=billId)
+        obj.delete()
+        storage = messages.get_messages(request)
+        storage.used = True
+        messages.info(request,'Coupon Code Deleted')
+        return redirect('/luckydraw/deleteCoupon')
+    return render(request,'luckydraw/deleteCoupon.html')

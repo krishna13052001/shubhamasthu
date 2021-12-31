@@ -13,14 +13,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script>
       window.onload = function(){
+        console.log("page loaded");
         document.getElementById('download').addEventListener('click', () => {
+          console.log("clicked");
           const print  = document.getElementById('print');
           html2pdf().from(print).save("cards.pdf");
         });
         };
       window.onload = function(){
+        console.log("page loaded images");
         document.getElementById('download-image').addEventListener('click', () => {
-          console.log("hello");
+          console.log("clicked images");
           const print  = document.getElementById('print');
           html2canvas(print).then((canvas) => {
             const base64image = canvas.toDataURL("image/png");

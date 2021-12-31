@@ -1,0 +1,17 @@
+{%extends "luckydraw/dashboard.html"%}
+{%block content%}
+<div class="container mt-5">
+<form action="/luckydraw/deleteCoupon" method="POST" autocomplete="off">
+    {%csrf_token%}
+    <div class="row form-group">
+        <div class="col-sm-3">
+            <label for="code" class="form-label">Bill ID</label>
+            <input type="text" name="billid" id="billid" class="form-control" required>
+            <br> 
+            <br><br>
+            <input type="submit" class="btn btn-success" value="Check Code">
+        </div>
+    </div>
+</form>
+</div>
+{%endblock%}

@@ -37,6 +37,7 @@
               <a class="nav-link" href="/luckydraw/validateCoupon">Validate Coupon</a>
               {% if request.user.is_superuser == True %}
                 <a href="/luckydraw/displayWinners" class="nav-link">Display Winners</a>
+                <a href="/luckydraw/deleteCoupon" class="nav-link">Delete Coupon</a>
               {% endif %}
               <a class="nav-link" href="/luckydraw/changePassword">Change Password</a>
               <a class="nav-link" href="/luckydraw/downStats">Download Statistics</a>
