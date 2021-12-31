@@ -28,7 +28,7 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 # DEBUG = True
 DATABASES = {
     'default': dj_database_url.config(
-        default=config('PAID_DBURL')
+        default=config('DATABASE_URL')
     )
 }
 '''
