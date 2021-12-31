@@ -64,7 +64,11 @@ def register(request):
             username=request.POST["username"]
             password=request.POST["password"]
             branch=request.POST["branch"]
-            obj = User.objects.create_user(first_name=first_name,email=email,username=username,password=password,branch=branch)
+            try:
+                obj = User.objects.create_user(first_name=first_name,email=email,username=username,password=password,branch=branch)
+            except:
+                messages.info(request,"User Already Exists")
+                return redirect("/register")
             storage = messages.get_messages(request)
             storage.used = True
             messages.info(request,'Registration Successful')

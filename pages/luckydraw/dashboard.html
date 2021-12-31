@@ -86,9 +86,15 @@
                    {%for object  in cards %}
                        <div class="col-12 col-md-6 col-xxl-3">
                        <a href="" style="text-decoration: none; color: #000;">
-                           <div class="progressCard card border-0">
-                           <div class="row">
-                               <div class="col details" style="background-image: url('../../static/card_tag.jpeg');height:300px">
+                           <div class="progressCard card border-0" style="position: relative;">
+                            <img src="{% static 'card_tag.png'%}" alt="">
+                            <div class="card-header bg-white" style="position:absolute;padding: 0px;color: red;font-size: medium;font-weight: 200;">
+                              <span>
+                                <strong class="courseName">{{key}}</strong>
+                              </span>
+                            </div>
+                            <div class="row">
+                               <div class="col details">
                                <p class="faculty mb-0">
                                    <stong>Coupon Code: </strong>Code - {{object.code}}
                                </p>

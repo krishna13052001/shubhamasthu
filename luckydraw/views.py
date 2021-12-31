@@ -12,7 +12,7 @@ def sendSMS(apikey, numbers, sender, message):
     request = urllib.request.Request("https://api.textlocal.in/send/?")
     f = urllib.request.urlopen(request, data)
     fr = f.read()
-    print(fr)
+    # print(fr)
     return(fr)
 
 def validateMobileNumber(request):
@@ -148,8 +148,8 @@ def createCoupon(request):
             storage.used = True
             request.session["displayCoupon"]=True
             request.session["couponId"] = obj.id
-            print(request.session["displayCoupon"])
-            print(request.session["couponId"])
+            # print(request.session["displayCoupon"])
+            # print(request.session["couponId"])
             messages.info(request,'Coupons Created and Shared Successfully')
             return redirect('/luckydraw/dashboard')
         except Exception as e:
@@ -185,7 +185,7 @@ def dashboard(request):
 
 def scratch(request,token):
         cards = Cards.objects.filter(lucky_cards__link=token)
-        print(len(cards))
+        # print(len(cards))
         if len(cards)==0:
             storage = messages.get_messages(request)
             storage.used = True
@@ -221,7 +221,7 @@ def redeemCoupon(request):
         mobile = card_obj[0].lucky_cards.all()[0].mobile
         string = '0123456789'
         otp = ''.join([random.choice(string) for i in range(0,4)])
-        print(otp)
+        # print(otp)
         request.session["otp"] = otp
         request.session['card_id'] = card_obj[0].id
         sender='SBMSTU'
@@ -294,7 +294,7 @@ def weekly(request):
         mobile = card_obj[0].lucky_cards.all()[0].mobile
         string = '0123456789'
         otp = ''.join([random.choice(string) for i in range(0,4)])
-        print(otp)
+        # print(otp)
         request.session["otp"] = otp
         request.session['card_id'] = card_obj[0].id
         sender='SBMSTU'
