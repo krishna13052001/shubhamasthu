@@ -319,7 +319,8 @@ def informCustomer(request):
         code = request.POST.get('code').strip()[:10]
         card_obj = Cards.objects.filter(code=code).select_related()
         coupon_obj = card_obj[0].lucky_cards.all()[0]
-        Winner.objects.create(winner_card=card_obj[0],winner_coupon=coupon_obj)
+        message = request.POST.get('message')
+        Winner.objects.create(winner_card=card_obj[0],winner_coupon=coupon_obj,message=message)
         mobile = card_obj[0].lucky_cards.all()[0].mobile
         date_var = datetime.now().strftime('%Y-%m-%d')
         sender='SBMSTU'
