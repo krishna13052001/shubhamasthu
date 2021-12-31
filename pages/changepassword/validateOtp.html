@@ -1,0 +1,13 @@
+{%extends "luckydraw/dashboard.html"%}
+{%block content%}
+    <div class="container">
+        <form action="" method="POST">
+            {%csrf_token%}
+            <div class="row form-group">
+                <label for="otp">Enter OTP</label>
+                <input type="text" name="otp" id="otp" class="form-control" required>
+            </div>
+            <input type="submit" value="Check OTP" class="btn btn-success">
+        </form>
+    </div>
+{%endblock%}

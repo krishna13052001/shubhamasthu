@@ -13,5 +13,9 @@ urlpatterns = [
     path('redeemotp',views.redeemotp,name="redeemotp"),
     path('validateCoupon',views.validateCoupon,name="validateCoupon"),
     path('informCustomer',views.informCustomer,name="informCustomer"),
-    path('displayWinners',views.displayWinners,name="displayWinners")
+    path('displayWinners',views.displayWinners,name="displayWinners"),
+    path('downStats',views.downStats,name='downStats'),
+    path('setNewPassword',views.setNewPassword,name="setNewPassword"),
+    path('validatePasswordOtp',views.validatePasswordOtp,name="validatePasswordOtp"),
+    path('changePassword',views.changePassword,name="changePassword"),
 ]

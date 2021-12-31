@@ -1,0 +1,28 @@
+{%extends "luckydraw/dashboard.html"%}
+{%block content%}
+<form action="/luckydraw/downStats" method="POST">
+    {%csrf_token%}
+    <div class="row">
+        <div class="col-sm form-group">
+            <label for="from_date">From Date</label>
+            <input type="datetime-local" name="from_date" class="form-control" id="from_date" required>
+        </div>
+        <div class="col-sm form-group">
+            <label for="to_date">To Date</label>
+            <input type="datetime-local" name="to_date" class="form-control" id="to_date" required>
+        </div>
+        {% if request.user.is_superuser == True %}
+            <div class="col-sm form-group">
+                <label for="branch">Branch</label>
+                <select id="branch" name="branch" class="form-control" required>
+                        <option value="Nellore">Nellore</option>
+                        <option value="Tirupati">Tirupati</option>
+                        <option value="Vijayawada">Vijayawada</option>
+                </select>
+            </div>        
+        {%endif%}
+    </div>
+    <br/>
+    <input type="submit" value="Download Data" class="btn btn-outline-success">
+</form>
+{%endblock%}

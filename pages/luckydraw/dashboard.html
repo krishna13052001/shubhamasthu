@@ -25,7 +25,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav ms-auto">
+        <div class="navbar-nav ms-auto" style="flex-wrap:wrap;flex-direction: row; justify-content: flex-end;">
               <a class="nav-link" href="/luckydraw/dashboard">Home</a>
               <a class="nav-link" aria-current="page" href="/luckydraw/addCoupon">Add Coupon</a>
               {%if request.user.is_superuser == True %}
@@ -38,8 +38,8 @@
                 <a href="/luckydraw/displayWinners" class="nav-link">Display Winners</a>
               {% endif %}
               <a class="nav-link" href="/luckydraw/changePassword">Change Password</a>
+              <a class="nav-link" href="/luckydraw/downStats">Download Statistics</a>
               <a class="nav-link" href="/logout">Log out</a>
-            
         </div>
       </div>
     </div>

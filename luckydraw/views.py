@@ -1,9 +1,13 @@
 from django.shortcuts import render,redirect
+from django.http import HttpResponse
 from django.contrib import messages
 from .models import Coupon,Cards,CouponCount,Winner
 import secrets
 import random
 import urllib
+from django.core.mail import send_mail
+from main.models import User
+from django.contrib.auth.hashers import make_password
 
 def sendSMS(apikey, numbers, sender, message):
     data =  urllib.parse.urlencode({'apikey': apikey, 'numbers': numbers,
@@ -339,3 +343,79 @@ def informCustomer(request):
 def displayWinners(request):
     winners = Winner.objects.all().select_related()
     return render(request,"luckydraw/winners.html",{'winners':winners})
+import csv
+def downStats(request):
+    if(not request.user.is_authenticated):
+        messages.info(request,"Please Login/Register")
+        return redirect("/login")
+    if request.method=="POST":
+        from_date = request.POST["from_date"]
+        to_date = request.POST["to_date"]
+        branch = request.POST.get('branch') or request.user.branch
+        obj = Coupon.objects.filter(date_created__range=(from_date,to_date),lucky_created_by__branch = branch)
+        response = HttpResponse(content_type='text/csv')
+        file_name = request.user.branch+'-'+request.user.username+'-'+datetime.now().strftime("%d-%m-%Y %H-%M-%S")+'-Coupon Report.csv'
+        response['Content-Disposition'] = 'attachment; filename="'+file_name+'"'
+        writer = csv.writer(response)
+        #  name, bill number,No of Copouns, amount, mobile number, operator, Redeemed time
+        writer.writerow(['Name', 'Bill ID', 'Mobile','No of Coupons', 'Bill Amount','Operator UserName','Time','Total Coupon Codes'])
+        # writer.writerow(['Name',"Bill Number", "No of Cards","Amount", "Mobile Number","Operator UserName","Redeemed Time"])
+        for item in obj:
+            coupon_code = ''
+            for card in item.lucky_cards.all():
+                coupon_code+=card.code+','
+            # print("hi I am here")
+            writer.writerow([item.name,item.bill_id,item.mobile,item.no_of_coupons,item.bill_amount,item.lucky_created_by,item.date_created,coupon_code])
+            #writer.writerow([item.name,item.bill_id,item.no_of_coupons,item.bill_amount,item.mobile,item.created_by,redeemed_dates])
+        return response
+    return render(request,"luckydraw/downStats.html")
+
+def changePassword(request):
+    if request.method=="POST":
+        username=request.POST["username"]
+        obj = User.objects.get(username=username)
+        number = random.randint(1000,9999)
+        request.session["username"]=username
+        request.session["otp_send"]=number
+        msg = 'Hi '+obj.first_name+',\n\n\tOTP To change password: '+str(number)
+        send_mail("Shubhamasthu - Password Change",msg,from_email='adityaintern11@gmail.com',recipient_list=[obj.email])
+        storage = messages.get_messages(request)
+        storage.used = True
+        messages.info(request,'OTP Shared to your email id')
+        return redirect('/luckydraw/validatePasswordOtp')
+    return render(request,"changepassword/startRecovery.html")
+
+def validatePasswordOtp(request):
+    if request.method=="POST":
+        otp = request.POST["otp"]
+        if int(otp)==int(request.session["otp_send"]):
+            storage = messages.get_messages(request)
+            storage.used = True
+            messages.info(request,'OTP Verified. Provide New Password Credentials')
+            return redirect('/luckydraw/setNewPassword')
+        else:
+            storage = messages.get_messages(request)
+            storage.used = True
+            messages.info(request,'OTP Verification failed. Re-enter the username')
+            return redirect('/luckydraw/changePassword')
+    return render(request,'changepassword/validateOtp.html')
+
+def setNewPassword(request):
+    if request.method=="POST":
+        password=request.POST["new_password"]
+        cnf_password=request.POST["cnf_password"]
+        if password==cnf_password:
+            password=make_password(password)
+            obj = User.objects.get(username=request.session["username"])
+            obj.password=password
+            obj.save()
+            storage = messages.get_messages(request)
+            storage.used = True
+            messages.info(request,'Password Changed Successfully')
+            return redirect('/')
+        else:
+            storage = messages.get_messages(request)
+            storage.used = True
+            messages.info(request,'Passwords not matching')
+            return redirect('/luckydraw/setNewPassword')
+    return render(request,'changepassword/setNewPassword.html')
