@@ -316,16 +316,21 @@ def informCustomer(request):
         messages.info(request,"Please Login/Register")
         return redirect("/login")
     if request.method == "POST":
-        code = request.POST.get('code')
+        code = request.POST.get('code')[:10]
         card_obj = Cards.objects.filter(code=code).select_related()
         coupon_obj = card_obj[0].lucky_cards.all()[0]
         Winner.objects.create(winner_card=card_obj[0],winner_coupon=coupon_obj)
         mobile = card_obj[0].lucky_cards.all()[0].mobile
+        date_var = datetime.now().strftime('%Y-%m-%d')
         sender='SBMSTU'
         api = 'MWE4M2Y4MGRjY2QzZTRhMDkxOGUxYzhkOGViYTVjZWY='
-        sendSMS(apikey=api,sender=sender,numbers='+91'+str(mobile),message=f"Dear Customer, your one time password for Lucky Draw Coupon is {123456} - Subhamasthu Shopping Mall")
-        storage = messages.get_messages(request)
-        storage.used = True
+        try:
+            sendSMS(apikey=api,sender=sender,numbers='+91'+str(mobile),message=f"Congratulations Dear Customer, You have won the lucky draw of {code} which was drawn on Date {date_var}. Please show this message to the Showroom Manager for further process & conditions apply  - Subhamasthu Shopping Mall")
+        except:
+            storage.used = True
+            storage = messages.get_messages(request)
+            messages.info(request,"SMS not sent")
+            return redirect('/luckydraw/informCustomer')
         messages.info(request,"Lucky Person informed")
     return render(request,'luckydraw/informCustomer.html')
 
