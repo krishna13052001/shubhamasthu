@@ -365,7 +365,7 @@ def downStats(request):
             for card in item.lucky_cards.all():
                 coupon_code+=card.code+','
             # print("hi I am here")
-            writer.writerow([item.name,item.bill_id,item.mobile,item.no_of_coupons,item.bill_amount,item.lucky_created_by,item.date_created,coupon_code])
+            writer.writerow([item.name,item.bill_id,item.mobile,item.no_of_coupons,eval(item.bill_amount),item.lucky_created_by,item.date_created,coupon_code])
             #writer.writerow([item.name,item.bill_id,item.no_of_coupons,item.bill_amount,item.mobile,item.created_by,redeemed_dates])
         return response
     return render(request,"luckydraw/downStats.html")
