@@ -316,18 +316,19 @@ def informCustomer(request):
         messages.info(request,"Please Login/Register")
         return redirect("/login")
     if request.method == "POST":
-        code = request.POST.get('code').strip()[:10]
+        code = request.POST.get('code').strip().upper()[:10]
         card_obj = Cards.objects.filter(code=code).select_related()
         coupon_obj = card_obj[0].lucky_cards.all()[0]
         message = request.POST.get('message')
         Winner.objects.create(winner_card=card_obj[0],winner_coupon=coupon_obj,message=message)
         mobile = card_obj[0].lucky_cards.all()[0].mobile
-        date_var = datetime.now().strftime('%Y-%m-%d')
+        date_var = datetime.now().strftime('%d/%m/%Y')
+        # print(date_var,message)
         sender='SBMSTU'
         api = 'MWE4M2Y4MGRjY2QzZTRhMDkxOGUxYzhkOGViYTVjZWY='
         try:
-            sendSMS(apikey=api,sender=sender,numbers='+91'+str(mobile),message=f"Dear Customer, your one time password for Lucky Draw Coupon is {123456} - Subhamasthu Shopping Mall")
-            #sendSMS(apikey=api,sender=sender,numbers='+91'+str(mobile),message=f"Congratulations Dear Customer, You have won the lucky draw of {code} which was drawn on Date {date_var}. Please show this message to the Showroom Manager for further process & conditions apply  - Subhamasthu Shopping Mall")
+            # sendSMS(apikey=api,sender=sender,numbers='+91'+str(mobile),message=f"Dear Customer, your one time password for Lucky Draw Coupon is {123456} - Subhamasthu Shopping Mall")
+            sendSMS(apikey=api,sender=sender,numbers='+91'+str(mobile),message=f"Congratulations Dear Customer, You have won the lucky draw of {message} which was drawn on Date {date_var}. Please show this message to the Showroom Manager for further process & conditions apply - Subhamasthu Shopping Mall")
         except:
             storage = messages.get_messages(request)
             storage.used = True
