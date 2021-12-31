@@ -83,7 +83,7 @@ def createCoupon(request):
             deleted_codes_to_reuse = DeletedNumber.objects.filter(branch=request.user.branch)
             deleted_codes_to_reuse_length = len(deleted_codes_to_reuse)
             if deleted_codes_to_reuse_length>=no_of_coupouns:
-                for item in deleted_codes_to_reuse[-no_of_coupouns:]:
+                for item in deleted_codes_to_reuse[-1*no_of_coupouns:]:
                     code = item.code
                     obj1 = Cards.objects.create(code=code,luckycard_issued_by=request.user)
                     obj.lucky_cards.add(obj1)
