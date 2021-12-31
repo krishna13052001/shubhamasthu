@@ -5,8 +5,11 @@
     {%csrf_token%}
     <div class="row form-group">
         <div class="col-sm-3">
-            <label for="code">Card Code</label>
+            <label for="code" class="form-label">Card Code</label>
             <input type="text" name="code" id="code" class="form-control" required>
+            <br> 
+            <label for="message" class="form-label">Note</label>
+            <input type="text" name="message" id="message" class="form-control" required>
             <br><br>
             <input type="submit" class="btn btn-success" value="Check Code">
         </div>

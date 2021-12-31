@@ -316,7 +316,7 @@ def informCustomer(request):
         messages.info(request,"Please Login/Register")
         return redirect("/login")
     if request.method == "POST":
-        code = request.POST.get('code')[:10]
+        code = request.POST.get('code').strip()[:10]
         card_obj = Cards.objects.filter(code=code).select_related()
         coupon_obj = card_obj[0].lucky_cards.all()[0]
         Winner.objects.create(winner_card=card_obj[0],winner_coupon=coupon_obj)
