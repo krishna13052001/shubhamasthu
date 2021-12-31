@@ -12,7 +12,7 @@ def sendSMS(apikey, numbers, sender, message):
     request = urllib.request.Request("https://api.textlocal.in/send/?")
     f = urllib.request.urlopen(request, data)
     fr = f.read()
-    # print(fr)
+    print(fr)
     return(fr)
 
 def validateMobileNumber(request):
@@ -325,10 +325,11 @@ def informCustomer(request):
         sender='SBMSTU'
         api = 'MWE4M2Y4MGRjY2QzZTRhMDkxOGUxYzhkOGViYTVjZWY='
         try:
-            sendSMS(apikey=api,sender=sender,numbers='+91'+str(mobile),message=f"Congratulations Dear Customer, You have won the lucky draw of {code} which was drawn on Date {date_var}. Please show this message to the Showroom Manager for further process & conditions apply  - Subhamasthu Shopping Mall")
+            sendSMS(apikey=api,sender=sender,numbers='+91'+str(mobile),message=f"Dear Customer, your one time password for Lucky Draw Coupon is {123456} - Subhamasthu Shopping Mall")
+            #sendSMS(apikey=api,sender=sender,numbers='+91'+str(mobile),message=f"Congratulations Dear Customer, You have won the lucky draw of {code} which was drawn on Date {date_var}. Please show this message to the Showroom Manager for further process & conditions apply  - Subhamasthu Shopping Mall")
         except:
-            storage.used = True
             storage = messages.get_messages(request)
+            storage.used = True
             messages.info(request,"SMS not sent")
             return redirect('/luckydraw/informCustomer')
         messages.info(request,"Lucky Person informed")
