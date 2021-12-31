@@ -1,14 +1,13 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib import messages
-from .models import Coupon,Cards,CouponCount,Winner
+from .models import Coupon,Cards,CouponCount,Winner,DeletedNumber
 import secrets
 import random
 import urllib
 from django.core.mail import send_mail
 from main.models import User
 from django.contrib.auth.hashers import make_password
-
 def sendSMS(apikey, numbers, sender, message):
     data =  urllib.parse.urlencode({'apikey': apikey, 'numbers': numbers,
         'message' : message, 'sender': sender})
@@ -81,70 +80,96 @@ def createCoupon(request):
             link = secrets.token_hex(10)
             obj = Coupon.objects.create(name=name,bill_id=bill_id,mobile=mobile,bill_amount=bill_amount,no_of_coupons=no_of_coupouns,lucky_created_by=request.user,link=link)
             obj.save()
-            for i in range(0,int(no_of_coupouns)):
-                if request.user.branch == "Tirupati":
-                    object = CouponCount.objects.all()
-                    if len(object)>0:
-                        code = object[0].tirupati_count
-                        object[0].tirupati_count+=1
-                        object[0].save()
-                        count = 0
-                        while count!=10 and Cards.objects.filter(code='TPT'+str(code).zfill(7)).exists():
+            deleted_codes_to_reuse = DeletedNumber.objects.filter(branch=request.user.branch)
+            deleted_codes_to_reuse_length = len(deleted_codes_to_reuse)
+            if deleted_codes_to_reuse_length>=no_of_coupouns:
+                for item in deleted_codes_to_reuse:
+                    code = item.code
+                    obj1 = Cards.objects.create(code=code,luckycard_issued_by=request.user)
+                    obj.lucky_cards.add(obj1)
+                    obj.save()
+                    item.delete()
+            else:
+                k = 0
+                if deleted_codes_to_reuse_length>0:
+                    k = no_of_coupouns - deleted_codes_to_reuse_length
+                    for item in deleted_codes_to_reuse:
+                        code = item.code
+                        obj1 = Cards.objects.create(code=code,luckycard_issued_by=request.user)
+                        obj.lucky_cards.add(obj1)
+                        obj.save()
+                        item.delete()
+                    no_of_coupouns = k
+                for i in range(0,int(no_of_coupouns)):
+                    if request.user.branch == "Tirupati":
+                        object = CouponCount.objects.all()
+                        if len(object)>0:
                             code = object[0].tirupati_count
                             object[0].tirupati_count+=1
                             object[0].save()
-                            count+=1
-                        if count==10:
-                            storage = messages.get_messages(request)
-                            storage.used = True
-                            messages.info(request,'Count 10: please try after 5 minutes')
-                            deleteCoupon(obj.id)
-                            return redirect('/luckydraw/dashboard')    
-                        obj1 = Cards.objects.create(code='TPT'+str(code).zfill(7),luckycard_issued_by=request.user)
-                        obj.lucky_cards.add(obj1)
-                        obj.save()
-                elif request.user.branch == "Nellore":
-                    object = CouponCount.objects.all()
-                    if len(object)>0:
-                        code = object[0].nellore_count
-                        object[0].nellore_count+=1
-                        object[0].save()
-                        count = 0
-                        while count!=10 and Cards.objects.filter(code='NLR'+str(code).zfill(7)).exists():
+                            count = 0
+                            while count!=10 and Cards.objects.filter(code='TPT'+str(code).zfill(7)).exists():
+                                code = object[0].tirupati_count
+                                object[0].tirupati_count+=1
+                                object[0].save()
+                                count+=1
+                            if count==10:
+                                storage = messages.get_messages(request)
+                                storage.used = True
+                                messages.info(request,'Count 10: please try after 5 minutes')
+                                deleteCoupon(obj.id)
+                                return redirect('/luckydraw/dashboard')    
+                            obj1 = Cards.objects.create(code='TPT'+str(code).zfill(7),luckycard_issued_by=request.user)
+                            obj.lucky_cards.add(obj1)
+                            obj.save()
+                    elif request.user.branch == "Nellore":
+                        object = CouponCount.objects.all()
+                        if len(object)>0:
                             code = object[0].nellore_count
                             object[0].nellore_count+=1
                             object[0].save()
-                            count+=1
-                        if count==10:
-                            storage = messages.get_messages(request)
-                            storage.used = True
-                            messages.info(request,'Count 10: please try after 5 minutes')
-                            deleteCoupon(obj.id)
-                            return redirect('/luckydraw/dashboard')    
-                        obj1 = Cards.objects.create(code='NLR'+str(code).zfill(7),luckycard_issued_by=request.user)
-                        obj.lucky_cards.add(obj1)
-                        obj.save()
-                elif request.user.branch == "Vijayawada":
-                    object = CouponCount.objects.all()
-                    if len(object)>0:
-                        code = object[0].vijayawada_count
-                        object[0].vijayawada_count+=1
-                        object[0].save()
-                        count = 0
-                        while count!=10 and Cards.objects.filter(code='VJY'+str(code).zfill(7)).exists():
+                            count = 0
+                            while count!=10 and Cards.objects.filter(code='NLR'+str(code).zfill(7)).exists():
+                                code = object[0].nellore_count
+                                object[0].nellore_count+=1
+                                object[0].save()
+                                count+=1
+                            if count==10:
+                                storage = messages.get_messages(request)
+                                storage.used = True
+                                messages.info(request,'Count 10: please try after 5 minutes')
+                                deleteCoupon(obj.id)
+                                return redirect('/luckydraw/dashboard')    
+                            obj1 = Cards.objects.create(code='NLR'+str(code).zfill(7),luckycard_issued_by=request.user)
+                            obj.lucky_cards.add(obj1)
+                            obj.save()
+                    elif request.user.branch == "Vijayawada":
+                        object = CouponCount.objects.all()
+                        if len(object)>0:
                             code = object[0].vijayawada_count
                             object[0].vijayawada_count+=1
                             object[0].save()
-                            count+=1
-                        if count==10:
-                            storage = messages.get_messages(request)
-                            storage.used = True
-                            messages.info(request,'Count 10: please try after 5 minutes')
-                            deleteCoupon(obj.id)
-                            return redirect('/luckydraw/dashboard')
-                        obj1 = Cards.objects.create(code='VJY'+str(code).zfill(7),luckycard_issued_by=request.user)
-                        obj.lucky_cards.add(obj1)
-                        obj.save()
+                            count = 0
+                            while count!=10 and Cards.objects.filter(code='VJY'+str(code).zfill(7)).exists():
+                                code = object[0].vijayawada_count
+                                object[0].vijayawada_count+=1
+                                object[0].save()
+                                count+=1
+                            if count==10:
+                                storage = messages.get_messages(request)
+                                storage.used = True
+                                messages.info(request,'Count 10: please try after 5 minutes')
+                                deleteCoupon(obj.id)
+                                return redirect('/luckydraw/dashboard')
+                            obj1 = Cards.objects.create(code='VJY'+str(code).zfill(7),luckycard_issued_by=request.user)
+                            obj.lucky_cards.add(obj1)
+                            obj.save()
+                    else:
+                        Coupon.objects.get(link=link).delete()
+                        storage = messages.get_messages(request)
+                        storage.used = True
+                        messages.info(request,"You don't have any branch assigned. You are not authorized. Approach Admin for more details")
+                        return redirect('/luckydraw/dashboard')
             sender='SBMSTU'
             api = 'MWE4M2Y4MGRjY2QzZTRhMDkxOGUxYzhkOGViYTVjZWY='
             sendSMS(apikey=api,sender=sender,numbers='+91'+str(mobile),message="Dear Customer, Click this link to grab your coupon shubhamasthu.herokuapp.com/scratch/"+obj.link+" - Subhamasthu Shopping Mall.")
@@ -434,6 +459,12 @@ def deleteCouponCode(request):
         print("hello")
         billId=request.POST["billid"]
         obj = Coupon.objects.get(bill_id=billId)
+        cards = obj.lucky_cards.all()
+        for item in cards:
+            code = item.code
+            branch = obj.lucky_created_by.branch
+            DeletedNumber.objects.create(code=code,branch=branch)
+        obj.lucky_cards.all().delete()
         obj.delete()
         storage = messages.get_messages(request)
         storage.used = True

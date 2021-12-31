@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Cards,Coupon,CouponCount,Winner
+from .models import Cards,Coupon,CouponCount, DeletedNumber,Winner
 
 # Register your models here.
 class CouponRef(admin.ModelAdmin):
@@ -19,9 +19,11 @@ class WinnerRef(admin.ModelAdmin):
         return instance.winner_coupon.name
     def winner_coupon_mobile(self, instance):
         return instance.winner_coupon.mobile
-    
+class DeleteNumberRef(admin.ModelAdmin):
+    list_display = ['code','branch']
 #link models to admin dashboard
 admin.site.register(Coupon,CouponRef)
 admin.site.register(Cards,CardRef)
 admin.site.register(CouponCount,CouponCountRef)
 admin.site.register(Winner,WinnerRef)
+admin.site.register(DeletedNumber,DeleteNumberRef)

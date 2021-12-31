@@ -32,3 +32,7 @@ class Winner(models.Model):
     winner_coupon = models.ForeignKey(Coupon,on_delete=models.CASCADE,related_name='winner_coupon_id')
     winner_card = models.ForeignKey(Cards,on_delete=models.CASCADE,related_name="winner_card_id")
     message = models.CharField(max_length=500,default="Hello")
+
+class DeletedNumber(models.Model):
+    code = models.CharField(max_length=10)
+    branch = models.CharField(max_length=20,default='')
