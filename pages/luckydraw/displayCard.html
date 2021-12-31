@@ -13,12 +13,13 @@
     <script>
         function printDiv() {
             console.log("printing");
-            var doc = new jsPDF();
-            var element = document.getElementById('print').innerHTML;
-            doc.fromHTML(element, 15, 15, {
-                'width': 170
-            });
-            doc.save('your_cards.pdf');
+            //var doc = new jsPDF();
+            //var element = document.getElementById('print').innerHTML;
+            //doc.fromHTML(element, 15, 15, {
+                //'width': 170
+            //});
+            //doc.save('your_cards.pdf');
+            window.print();
         }
 
     </script>
@@ -33,17 +34,18 @@
         
       </p>
     </div>
-    <div class="btn btn-primary" style="margin-top:10px;" onclick="printDiv();"> Download </div>
+    <div class="btn btn-primary" style="margin-top:10px;" onclick="window.print();"> Download </div>
 
     <div class="progressCardsRow" id="print">
       <div class="row">
           {%for key, value  in cards.items %}
             <div class="col-12 col-md-6 col-xxl-3">
               <a href="" style="text-decoration: none; color: #000;">
-                <div class="progressCard card border-0">
-                  <div class="card-header bg-white">
+                <div class="progressCard card border-0" style="position: relative;">
+                  <img src="{% static 'card_tag.png'%}" alt="">
+                  <div class="card-header bg-white" style="position:absolute;padding: 0px;color: red;font-size: medium;font-weight: 200;">
                     <span>
-                      <strong class="courseName">S.NO - {{key}}</strong>
+                      <strong class="courseName">{{key}}</strong>
                     </span>
                   </div>
                   <div class="row">
