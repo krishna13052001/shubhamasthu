@@ -53,8 +53,8 @@
                             <ul class="nav nav-tabs nav-justified">
                                 <li class="nav-item"><a href="#login" class="nav-link active" data-bs-toggle="tab">Login</a>
                                 </li>
-                                <li class="nav-item"><a href="#signup" class="nav-link" data-bs-toggle="tab">Sign Up</a>
-                                </li>
+                                {% comment %} <li class="nav-item"><a href="#signup" class="nav-link" data-bs-toggle="tab">Sign Up</a> {% endcomment %}
+                                {% comment %} </li> {% endcomment %}
                             </ul>
 
                             <div class="tab-content">
@@ -73,7 +73,7 @@
                                         </div>
                                         <div class="text-center">
                                             <button class="btn btn-primary w-25 mb-3" value="Login">Login</button><br>
-                                            <a href="/changePassword">Forgot Password?</a>
+                                            {% comment %} <a href="/changePassword">Forgot Password?</a> {% endcomment %}
                                         </div>
                                     </form>
                                 </div>
