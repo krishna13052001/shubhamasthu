@@ -239,6 +239,9 @@ def redeemCoupon(request):
     if(not request.user.is_authenticated):
         messages.info(request,"Please Login/Register")
         return redirect("/login")
+    if(not request.user.is_staff and not request.user.is_superuser):
+        messages.info(request,"You are not authorized")
+        return redirect("/luckydraw/dashboard")
     if request.method=="POST":
         code = request.POST.get('code')
         card_obj = Cards.objects.filter(code=code).select_related()
@@ -310,6 +313,9 @@ def weekly(request):
     if(not request.user.is_authenticated):
         messages.info(request,"Please Login/Register")
         return redirect("/login")
+    if(not request.user.is_staff and not request.user.is_superuser):
+        messages.info(request,"You are not authorized to access this page")
+        return redirect("/luckydraw/dashboard")
     if request.method=="POST":
         code = request.POST.get('code')
         card_obj = Cards.objects.filter(code=code).select_related()
@@ -342,6 +348,9 @@ def informCustomer(request):
     if(not request.user.is_authenticated):
         messages.info(request,"Please Login/Register")
         return redirect("/login")
+    if(not request.user.is_superuser):
+        messages.info(request,"You are not authorized to view this page")
+        return redirect("/luckydraw/dashboard")
     if request.method == "POST":
         code = request.POST.get('code').strip().upper()[:10]
         card_obj = Cards.objects.filter(code=code).select_related()
@@ -455,6 +464,9 @@ def deleteCouponCode(request):
     if(not request.user.is_authenticated):
         messages.info(request,"Please Login/Register")
         return redirect("/login")
+    if(not request.user.is_superuser):
+        messages.info(request,"You are not authorized to perform this action")
+        return redirect("/luckydraw/dashboard")
     if request.method=="POST":
         print("hello")
         billId=request.POST["billid"]
