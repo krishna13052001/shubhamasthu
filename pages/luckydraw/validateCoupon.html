@@ -38,6 +38,7 @@
                 <th>Bill ID</th>
                 <th>Mobile Number</th>
                 <th>Coupon Code</th>
+                <th>Purchace Amount</th>
                 <th>Date Created</th>
             </tr>
             {%for item in obj%}
@@ -46,6 +47,7 @@
                 <td>{{item.lucky_cards.first.bill_id}}</td>
                 <td>{{item.lucky_cards.first.mobile}}</td>
                 <td>{{item.code}}</td>
+                <td>{{item.lucky_cards.first.bill_amount}}</td>
                 <td>{{item.lucky_cards.first.date_created}}</td>
             </tr>
             {%endfor%}
