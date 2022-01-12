@@ -26,13 +26,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 # DEBUG = True
-DATABASES = {
+'''DATABASES = {
     'default': dj_database_url.config(
         default=config('DATABASE_URL')
     )
-}
-'''
-
+}'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -40,7 +38,6 @@ DATABASES = {
     }
 }
 
-'''
 
 ALLOWED_HOSTS = ['shubhamasthu.herokuapp.com','127.0.0.1','localhost']
 

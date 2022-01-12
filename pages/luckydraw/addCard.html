@@ -1,8 +1,8 @@
 {%extends "luckydraw/dashboard.html"%} {%block content%}
 <br><br>
 <div class="container mt-5">
-    {% comment %} <form action="/luckydraw/validateMobileNumber" method="POST"> {% endcomment %}
     <form action="/luckydraw/validateMobileNumber" method="POST">
+    {% comment %} <form onsubmit="validate()" action="/luckydraw/validateMobileNumber" method="POST"> {% endcomment %}
         {%csrf_token%}
         <div class="row">
             <div class="form-group col-sm">
@@ -45,6 +45,22 @@
     </form>
 </div>
 <script>
+    function validate(){
+        console.log("validated");
+        var bill_id = document.getElementById('Bill ID').value;
+        var bill_amount = document.getElementById('bill_amount').value;
+        var no_of_coupons = document.getElementById('no_of_coupons').value;
+        if(bill_id.split(",").length != bill_amount.split("+").length){
+            confirm('No of bills and no of bill amount should be same please verify!!!!!'+bill_id.split(",").length+" "+bill_amount.split("").length);
+        }
+        if(bill_amount>=20000){
+            confirm('Bill amount was '+bill_amount+' please verify!!!!!');
+            
+        }
+        else{
+            return true;
+        }
+    }
     function totalValue(){
         var el = eval(document.getElementById("bill_amount").value);
         var c = el/999;
