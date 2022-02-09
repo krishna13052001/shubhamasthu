@@ -1,8 +1,8 @@
 {%extends "luckydraw/dashboard.html"%} {%block content%}
 <br><br>
 <div class="container mt-5">
-    {% comment %} <form action="/luckydraw/validateMobileNumber" method="POST"> {% endcomment %}
     <form action="/luckydraw/validateMobileNumber" method="POST">
+    {% comment %} <form onsubmit="validate()" action="/luckydraw/validateMobileNumber" method="POST"> {% endcomment %}
         {%csrf_token%}
         <div class="row">
             <div class="form-group col-sm">
