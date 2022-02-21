@@ -120,11 +120,11 @@
             <div class="form-wrap">
                 {%if request.user.is_superuser == False %}
                     <script>
-                        window.location.href = "/luckydraw/dashboard";
+                        window.location.href = "/dashboard";
                     </script>
                 {%else%}
                     <script>                   
-                        window.location.href = "/luckydraw/dashboard";
+                        window.location.href = "/dashboard";
                     </script>
                 {%endif%}
             </div>

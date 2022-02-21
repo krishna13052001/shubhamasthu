@@ -29,6 +29,7 @@
         </div>
     </div>
 </form>
+{% if obj %}
 <hr width="100%">
 <center><p style="font-size: larger; color: #002366; font-style: oblique;">Customer Details</p></center>
 <hr width="100%">
@@ -63,6 +64,7 @@
         {%endfor%}
     </table>
 </div>
+{%endif%}
 <script>
     function display(val)
     {

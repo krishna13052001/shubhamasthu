@@ -5,7 +5,7 @@
     {%csrf_token%}
     <div class="row">
         <div class="col-sm-7 form-group">
-            <label for="option">Select Appropriate Search Option</label>
+            <label for="option" class="form-label">Select Appropriate Search Option</label>
             <select name="option" id="option" class="form-control" value="0" onchange="display(this.value)">
                 <option value="2">Select</option>
                 <option value="2">Search Based on Customer Mobile Number</option>
@@ -14,15 +14,15 @@
             </select>
         </div>
         <div class="col-sm-3 form-group" id="0">
-            <label for="lid">Link ID</label>
+            <label for="lid" class="form-label">Link ID</label>
             <input type="text" id="lid" name="link" class="form-control">
         </div>
         <div class="col-sm-3 form-group" id="1" style="display: none;">
-            <label for="billid">Bill ID</label>
+            <label for="billid" class="form-label">Bill ID</label>
             <input type="text" id="billid" name="bill_id" class="form-control">
         </div>
         <div class="col-sm-3 form-group" id="2" style="display: none;">
-            <label for="mobile">Mobile Number</label>
+            <label for="mobile" class="form-label">Mobile Number</label>
             <input type="text" id="mobile" name="mobile" class="form-control">
         </div>
         <div class="col-sm-2 form-group">
@@ -30,6 +30,7 @@
         </div>
     </div>
 </form>
+{% if obj%}
 <hr width="100%">
 <center><p style="font-size: larger; color: #002366; font-style: oblique;">Customer Details</p></center>
 <hr width="100%">
@@ -72,7 +73,8 @@
         
         <button type="submit" class="btn btn-outline-primary">Redeem Coupons</button>
     </form>
-    
+{%endif%}
+
 </div>
 <script>
     function check_uncheck_checkbox(isChecked) {
