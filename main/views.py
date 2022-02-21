@@ -45,7 +45,7 @@ def login(request):
             storage = messages.get_messages(request)
             storage.used = True
             messages.info(request,'Login Success')
-            return redirect('/luckydraw/dashboard')
+            return redirect('/dashboard')
         else:
             storage = messages.get_messages(request)
             storage.used = True
@@ -111,6 +111,52 @@ def sendSMS(apikey, numbers, sender, message):
     f = urllib.request.urlopen(request, data)
     fr = f.read()
     return(fr)
+"""
+def addCoupon(request):
+    if(not request.user.is_authenticated):
+        messages.info(request,"Please Login/Register")
+        return redirect("/login")
+    if request.method=="POST":
+        link = None
+        try:
+            name=request.POST["name"]
+            bill_id = str(request.POST["bill_id"])
+            mobile = request.POST["mobile"]
+            bill_amount = request.POST["bill_amount"]
+            no_of_coupouns = eval(bill_amount)//999
+            if(no_of_coupouns == 0):
+                messages.info(request,"No Coupons were")
+                return redirect('/luckydraw/dashboard')
+            link = secrets.token_hex(10)
+            obj = Coupon.objects.create(name=name,bill_id=bill_id,mobile=mobile,bill_amount=bill_amount,no_of_coupons=no_of_coupouns,created_by=request.user,link=link)
+            obj.save()
+            for i in range(0,int(no_of_coupouns)):
+                string = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345789'
+                code = ''.join([random.choice(string) for i in range(0,10)])
+                while len(Cards.objects.filter(coupon__link=code))>0:
+                    code = ''.join([random.choice(string) for i in range(0,10)])
+                amount = lucky_draw()
+                obj1 = Cards.objects.create(code=code,amount=amount)
+                obj.cards.add(obj1)
+                obj.save()
+            sender='SBMSTU'
+            api = 'MWE4M2Y4MGRjY2QzZTRhMDkxOGUxYzhkOGViYTVjZWY='
+            sendSMS(apikey=api,sender=sender,numbers='+91'+str(mobile),message="Dear Customer, Click this link to grab your coupon shubhamasthu.herokuapp.com/scratch/"+obj.link+" - Subhamasthu Shopping Mall.")
+            storage = messages.get_messages(request)
+            storage.used = True
+            messages.info(request,'Coupons Created and Shared Successfully')
+            return redirect('/dashboard')
+        except Exception as e:
+            try:
+                Coupon.objects.get(link=link).delete()
+            except:
+                pass
+            storage = messages.get_messages(request)
+            storage.used = True
+            messages.info(request,e)
+            return redirect('/dashboard')
+    return render(request,'addCard.html')
+"""
 
 def addCoupon(request):
     if(not request.user.is_authenticated):
@@ -128,7 +174,7 @@ def addCoupon(request):
             no_of_coupouns = eval(bill_amount)//999
             if(no_of_coupouns == 0):
                 messages.info(request,"No Coupons were")
-                return redirect('/luckydraw/dashboard')
+                return redirect('/dashboard')
             link = secrets.token_hex(10)
             obj = Coupon.objects.create(name=name,bill_id=bill_id,mobile=mobile,bill_amount=bill_amount,no_of_coupons=no_of_coupouns,created_by=request.user,link=link)
             obj.save()
@@ -139,6 +185,7 @@ def addCoupon(request):
                     code = ''.join([random.choice(string) for i in range(0,10)])
                 #amount = random.randint(1,50)
                 amount = lucky_draw()
+                print(amount)
                 #code = 'SS'+str(amount)
                 obj1 = Cards.objects.create(code=code,amount=amount)
                 obj.cards.add(obj1)
@@ -160,7 +207,6 @@ def addCoupon(request):
             messages.info(request,e)
             return redirect('/dashboard')
     return render(request,'addCard.html')
-
 
 
 
@@ -251,7 +297,7 @@ def redeemAmount(request):
     return render(request,"redeemAmount.html",{'amount':amount_value})
 
 def scratch(request,token):
-        return redirect('/luckydraw/scratch/'+str(token))
+        #return redirect('/luckydraw/scratch/'+str(token))
         cards = Cards.objects.filter(coupon__link=token)
         if len(cards)==0:
             storage = messages.get_messages(request)
@@ -310,7 +356,6 @@ def markRedeem(request):
     if request.method=="POST":
         my_vals = request.POST.getlist("list[]")
         for item in my_vals:
-            # datetime.now().strftime("%d-%m-%Y %H-%M-%S")
             Cards.objects.filter(id=item).update(redeemed=True,redeemed_date=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),issued_by = request.user)
         storage = messages.get_messages(request)
         storage.used = True
