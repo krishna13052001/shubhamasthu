@@ -78,7 +78,7 @@ body {
     box-shadow: inset 2px 2px 5px #BABECC, inset -5px -5px 10px #FFF;
     border: 0;
     background-color: rgb(225, 235, 243);
-    padding: 15px;
+    padding: 0px !important;
 }
 
 .form-label{

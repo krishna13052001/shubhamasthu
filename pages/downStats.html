@@ -1,17 +1,19 @@
 {%extends "dashboard.html"%}
 {%block content%}
-<form action="/downStats" method="POST">
-    {%csrf_token%}
-    <div class="row">
-        <div class="col-sm form-group">
-            <label for="from_date">From Date</label>
-            <input type="datetime-local" name="from_date" class="form-control" id="from_date" required>
+<div class="container mt-5">
+    <form action="/downStats" method="POST">
+        {%csrf_token%}
+        <div class="row">
+            <div class="col-sm form-group">
+                <label for="from_date">From Date</label>
+                <input type="datetime-local" name="from_date" class="form-control form-control-lg p-0 px-3" id="from_date" required>
+            </div>
+            <div class="col-sm form-group">
+                <label for="to_date">To Date</label>
+                <input type="datetime-local" name="to_date" class="form-control form-control-lg p-0 px-3" id="to_date" required>
+            </div>
         </div>
-        <div class="col-sm form-group">
-            <label for="to_date">To Date</label>
-            <input type="datetime-local" name="to_date" class="form-control" id="to_date" required>
-        </div>
-    </div>
-    <input type="submit" value="Download Data" class="btn btn-outline-success">
-</form>
+        <input type="submit" value="Download Data" class="btn btn-outline-success">
+    </form>
+</div>
 {%endblock%}

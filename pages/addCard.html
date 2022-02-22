@@ -2,53 +2,54 @@
 <br><br>
 <div class="container">
     {% comment %} <form action="/addCoupon" method="POST"> {% endcomment %}
-    <form action="/addCoupon" method="POST">
-        {%csrf_token%}
-        <div class="row">
-            <div class="form-group col-sm">
-                <label for="name">Customer Name</label>
-                <input type="text" name="name" id="name" class="form-control" required>
+        <form action="/addCoupon" method="POST">
+            {%csrf_token%}
+            <div class="row">
+                <div class="col-md" style="font-size: larger;">
+                    <div class="form-group mb-3">
+                        <label for="name">Customer Name</label>
+                        <input type="text" name="name" id="name" class="form-control form-control-lg p-0 px-3" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="Bill Number">Bill Number</label>
+                        <input type="text" name="bill_id" id="Bill ID" class="form-control form-control-lg p-0 px-3"
+                            required>
+                        <small>It Should not be Dupilcate</small>
+                    </div>
+                    <div class="form-group mb-3" aria-autocomplete="off">
+                        <label for="phone">Phone Number</label>
+                        <input type="text" name="mobile" id="phone" class="form-control form-control-lg p-0 px-3"
+                            required>
+                        <small>Enter 10 digit mobile number only</small>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="bill_amount">Bill Amount</label>
+                        <input type="text" name="bill_amount" id="bill_amount"
+                            class="form-control form-control-lg p-0 px-3" onkeyup="totalValue()" required>
+                    </div>
+                    <input type="submit" value="Create Coupon" class="btn btn-primary">
+                </div>
+                <div class="col-md mt-3">
+                    <div class="card p-3 bg-gradient text-white" style="border: 0; border-radius: 10px; background-color: rgb(86, 93, 185);">
+                        <span>
+                            <h5><b>No of Coupouns Issues: </b><span id="no_of_coupons">0</span></h5>
+                            <h5><b>Total Amount: </b><span id="total">0</span></h5><br>
+                            <h5>Buy for Rs. <span id="remaining">999</span> to get the next coupon </h5>
+                        </span>
+                    </div>
+                </div>
             </div>
-            <div class="form-group col-sm">
-                <label for="Bill Number">Bill Number</label>
-                <input type="text" name="bill_id" id="Bill ID" class="form-control" required>
-                <small>It Should not be Dupilcate</small>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-sm" aria-autocomplete="off">
-                <label for="phone">Phone Number</label>
-                <input type="text" name="mobile" id="phone" class="form-control" required>
-                <small>Enter 10 digit mobile number only</small>
-            </div>
-            <div class="form-group col-sm">
-                <label for="bill_amount">Bill Amount</label>
-                <input type="text" name="bill_amount" id="bill_amount" class="form-control" onkeyup="totalValue()" required>
-            </div>
-        </div>
-        <div>
-            <span>
-                <h5>No of Coupouns Issues: <span id="no_of_coupons">o</span></h5>
-            </span>
-            <span>
-                <h5>Total Amount: <span id="total">0</span></h5>
-            </span>
-            <span>
-                <h5>Buy for Rs. <span id="remaining">999</span> to get the next coupon </h5>
-            </span>
-        </div>
-        <input type="submit" value="Create Coupon" class="btn btn-primary">
-    </form>
+        </form>
 </div>
 <script>
-    function totalValue(){
+    function totalValue() {
         var el = eval(document.getElementById("bill_amount").value);
-        var c = el/999;
+        var c = el / 999;
         document.getElementById("total").innerHTML = el.toString();
         document.getElementById("no_of_coupons").innerHTML = Math.floor(c.toString());
         // console.log(Math.floor(c)+1);
 
-        var remaining = ((Math.floor(c)+1)*999) - el;
+        var remaining = ((Math.floor(c) + 1) * 999) - el;
         document.getElementById("remaining").innerHTML = remaining.toString();
     }
 </script>

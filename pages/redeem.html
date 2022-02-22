@@ -1,108 +1,116 @@
 {%extends "dashboard.html"%}
 {%block content%}
 <br><br>
-<form action="/redeem" method="POST">
-    {%csrf_token%}
-    <div class="row">
-        <div class="col-sm-7 form-group">
-            <label for="option" class="form-label">Select Appropriate Search Option</label>
-            <select name="option" id="option" class="form-control" value="0" onchange="display(this.value)">
-                <option value="2">Select</option>
-                <option value="2">Search Based on Customer Mobile Number</option>
-                <option value="0">Search Based on Link</option>
-                <option value="1">Search Based on Customer Bill ID</option>
-            </select>
-        </div>
-        <div class="col-sm-3 form-group" id="0">
-            <label for="lid" class="form-label">Link ID</label>
-            <input type="text" id="lid" name="link" class="form-control">
-        </div>
-        <div class="col-sm-3 form-group" id="1" style="display: none;">
-            <label for="billid" class="form-label">Bill ID</label>
-            <input type="text" id="billid" name="bill_id" class="form-control">
-        </div>
-        <div class="col-sm-3 form-group" id="2" style="display: none;">
-            <label for="mobile" class="form-label">Mobile Number</label>
-            <input type="text" id="mobile" name="mobile" class="form-control">
-        </div>
-        <div class="col-sm-2 form-group">
-            <br><center><input type="submit" value="Submit" class="btn btn-primary" required></center>
-        </div>
-    </div>
-</form>
-{% if obj%}
-<hr width="100%">
-<center><p style="font-size: larger; color: #002366; font-style: oblique;">Customer Details</p></center>
-<hr width="100%">
 <div class="container">
-    <p style="font-size: larger; color: #002366; font-style: oblique;">Coupons</p>
-    <h5>Total Amount:{{total}}</h5>
-    <h5>Total No of Cards: {{number}}</h5>
-    <form action="/markRedeem" method="POST">
+    <form action="/redeem" method="POST">
         {%csrf_token%}
-        <table class="table table-striped table-bordered table-hover">
-            <tr>
-                <th>Check<br/><center><input type="checkbox" name="checkall" id="checkall" onClick="check_uncheck_checkbox(this.checked);" /></center></div></th>
-                <th>Customer Name</th>
-                <th>Bill ID</th>
-                <th>Mobile Number</th>
-                <th>Coupon Code</th>
-                <th>Amount</th>
-                <th>Date Created</th>
-                <th>Created At Branch</th>
-                <th>Scratched</th>
-                <th>Redeemed</th>
-                <th>Redeemed Date</th>
-            </tr>
-            {%for item in obj%}
-            <tr>
-                <td><input type="checkbox" value="{{item.id}}" name="list[]"></td>
-                <td>{{item.coupon.first.name}}</td>
-                <td>{{item.coupon.first.bill_id}}</td>
-                <td>{{item.coupon.first.mobile}}</td>
-                <td>{{item.code}}</td>
-                <td>{{item.amount}}</td>
-                <td>{{item.coupon.first.date_created}}</td>
-                <td>{{item.coupon.first.created_by.branch}}</td>
-                <td>{{item.scratched}}</td>
-                <td>{{item.redeemed}}</td>
-                <td>{{item.redeemed_date}}</td>
-            </tr>
-            {%endfor%}
-        </table>
-        
-        <button type="submit" class="btn btn-outline-primary">Redeem Coupons</button>
+        <div class="row">
+            <div class="col-md-7 form-group">
+                <label for="option" class="form-label">Select Appropriate Search Option</label>
+                <select name="option" id="option" class="form-control form-control-lg p-0 px-3" value="0"
+                    onchange="display(this.value)">
+                    <option value="2">Select</option>
+                    <option value="2">Search Based on Customer Mobile Number</option>
+                    <option value="0">Search Based on Link</option>
+                    <option value="1">Search Based on Customer Bill ID</option>
+                </select>
+            </div>
+            <div class="col-md-3 form-group" id="0">
+                <label for="lid" class="form-label">Link ID</label>
+                <input type="text" id="lid" name="link" class="form-control form-control-lg">
+            </div>
+            <div class="col-md-3 form-group" id="1" style="display: none;">
+                <label for="billid" class="form-label">Bill ID</label>
+                <input type="text" id="billid" name="bill_id" class="form-control">
+            </div>
+            <div class="col-md-3 form-group" id="2" style="display: none;">
+                <label for="mobile" class="form-label">Mobile Number</label>
+                <input type="text" id="mobile" name="mobile" class="form-control">
+            </div>
+            <div class="col-md-2 form-group">
+                <br><input type="submit" value="Submit" class="btn btn-primary" required>
+            </div>
+        </div>
     </form>
+    {% if obj%}
+    <div class="container mt-5 p-4 bg-gradient" style="background-color: rgb(226, 233, 240); border-radius: 30px;
+    background: #d9e1e9;
+    box-shadow:  20px 20px 60px #c0c6cc,
+                 -20px -20px 60px #ffffff;">
+        <p class="text-center mb-4" style="font-size: xx-large; font-weight: 600; color: #002366;">Customer Details</p>
+        <p class="mb-3" style="font-size: larger; color: #002366; font-weight: 500;">Coupons</p>
+        <h5><b>Amount: </b>{{total}}</h5>
+        <h5 class="mb-3"><b>Total No of Cards: </b>{{number}}</h5>
+        <form action="/markRedeem" method="POST">
+            {%csrf_token%}
+            <table class="table table-striped table-bordered table-hover">
+                <tr>
+                    <th>Check<br />
+                        <center><input type="checkbox" name="checkall" id="checkall"
+                                onClick="check_uncheck_checkbox(this.checked);" /></center>
+                    </th>
+                    <th>Customer Name</th>
+                    <th>Bill ID</th>
+                    <th>Mobile Number</th>
+                    <th>Coupon Code</th>
+                    <th>Amount</th>
+                    <th>Date Created</th>
+                    <th>Created At Branch</th>
+                    <th>Scratched</th>
+                    <th>Redeemed</th>
+                    <th>Redeemed Date</th>
+                </tr>
+                {%for item in obj%}
+                <tr>
+                    <td class="d-flex justify-content-around align-content-around"><input type="checkbox" value="{{item.id}}" name="list[]"></td>
+                    <td>{{item.coupon.first.name}}</td>
+                    <td>{{item.coupon.first.bill_id}}</td>
+                    <td>{{item.coupon.first.mobile}}</td>
+                    <td>{{item.code}}</td>
+                    <td>{{item.amount}}</td>
+                    <td>{{item.coupon.first.date_created}}</td>
+                    <td>{{item.coupon.first.created_by.branch}}</td>
+                    <td>{{item.scratched}}</td>
+                    <td>{{item.redeemed}}</td>
+                    <td>{{item.redeemed_date}}</td>
+                </tr>
+                {%endfor%}
+            </table>
+
+            <button type="submit" class="btn btn-outline-primary">Redeem Coupons</button>
+        </form>
+    </div>
+
+</div>
 {%endif%}
 
 </div>
 <script>
     function check_uncheck_checkbox(isChecked) {
-        if(isChecked) {
-            $('input[name="list[]"]').each(function() { 
-                this.checked = true; 
+        if (isChecked) {
+            $('input[name="list[]"]').each(function () {
+                this.checked = true;
             });
         } else {
-            $('input[name="list[]"]').each(function() {
+            $('input[name="list[]"]').each(function () {
                 this.checked = false;
             });
         }
     }
-    function display(val)
-    {
-        switch(val){
+    function display(val) {
+        switch (val) {
             case "0": document.getElementById('0').style.display = 'block';
-                    document.getElementById('1').style.display = 'none';
-                    document.getElementById('2').style.display = 'none';
-                    break;
+                document.getElementById('1').style.display = 'none';
+                document.getElementById('2').style.display = 'none';
+                break;
             case "1": document.getElementById('0').style.display = 'none';
-                    document.getElementById('1').style.display = 'block';
-                    document.getElementById('2').style.display = 'none';
-                    break;
+                document.getElementById('1').style.display = 'block';
+                document.getElementById('2').style.display = 'none';
+                break;
             case "2": document.getElementById('0').style.display = 'none';
-                    document.getElementById('1').style.display = 'none';
-                    document.getElementById('2').style.display = 'block';
-                    break;
+                document.getElementById('1').style.display = 'none';
+                document.getElementById('2').style.display = 'block';
+                break;
         }
     }
 </script>
