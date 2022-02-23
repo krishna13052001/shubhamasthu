@@ -195,7 +195,8 @@ def addCoupon(request):
     if(not request.user.is_authenticated):
         messages.info(request,"Please Login/Register")
         return redirect("/login")
-    return render(request,'luckydraw/addCard.html')
+    else:
+        return render(request,'luckydraw/addCard.html')
 
 def dashboard(request): 
     if(not request.user.is_authenticated):

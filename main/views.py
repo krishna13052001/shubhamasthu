@@ -313,7 +313,7 @@ def scratch(request,token):
                 if item.scratched==True:
                     amount_redeemed += item.amount
                 n+=1
-            return render(request,'displayCard.html',{'cards':di,'n':n-1,'amount_redeemed':amount_redeemed})
+            return render(request,'sms.html',{'cards':di,'n':n-1,'amount_redeemed':amount_redeemed})
 
 def cardScratched(request,id):
     obj = Cards.objects.get(id=id)
